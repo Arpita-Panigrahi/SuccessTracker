@@ -3,19 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>61 Days · SuccessTracker</title>
+<title>61 Days · ArpsTracker</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&family=Geist:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #000000;
-    --surface: #0d0d0d;
-    --surface2: #141414;
-    --border: #1e1e1e;
-    --border2: #282828;
-    --text: #ebebeb;
-    --muted: #555555;
-    --muted2: #333333;
+    --bg: #0a0c0f;
+    --surface: #111418;
+    --surface2: #181c22;
+    --border: #1e2530;
+    --border2: #263040;
+    --text: #e8edf2;
+    --muted: #5a6575;
+    --muted2: #2e3a48;
     --accent: #a8cff2;
     --accent-dim: #a8cff218;
     --accent-mid: #a8cff244;
@@ -37,181 +37,77 @@
     overscroll-behavior: none;
   }
 
-  /* ── LAYOUT ── */
-  .shell {
-    display: grid;
-    grid-template-columns: 260px 1fr;
-    min-height: 100vh;
-  }
+  .shell { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
 
-  /* ── SIDEBAR (desktop) ── */
   .sidebar {
     background: var(--surface);
     border-right: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    overflow-y: auto;
+    display: flex; flex-direction: column;
+    position: sticky; top: 0; height: 100vh; overflow-y: auto;
   }
 
-  .sidebar-top {
-    padding: 28px 20px 20px;
-    border-bottom: 1px solid var(--border);
-  }
+  .sidebar-top { padding: 28px 20px 20px; border-bottom: 1px solid var(--border); }
 
-  .logo {
-    font-family: 'Instrument Serif', serif;
-    font-size: 20px;
-    color: var(--text);
-    letter-spacing: -0.02em;
-    margin-bottom: 4px;
-  }
+  .logo { font-family: 'Instrument Serif', serif; font-size: 20px; color: var(--text); letter-spacing: -0.02em; margin-bottom: 4px; }
   .logo span { color: var(--accent); }
+  .logo-sub { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
 
-  .logo-sub {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    color: var(--muted);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  /* streak */
-  .streak-box {
-    margin: 16px 20px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 14px;
-  }
-  .streak-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    color: var(--muted);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-  }
-  .streak-num {
-    font-family: 'Instrument Serif', serif;
-    font-size: 36px;
-    color: var(--accent);
-    line-height: 1;
-    margin-bottom: 4px;
-  }
+  .streak-box { margin: 16px 20px; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 14px; }
+  .streak-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+  .streak-num { font-family: 'Instrument Serif', serif; font-size: 36px; color: var(--accent); line-height: 1; margin-bottom: 4px; }
   .streak-sub { font-size: 11px; color: var(--muted); }
   .streak-dots { display: flex; gap: 4px; margin-top: 10px; flex-wrap: wrap; }
   .streak-dot { width: 10px; height: 10px; border-radius: 2px; background: var(--border2); }
   .streak-dot.done { background: var(--accent); }
   .streak-dot.today { background: var(--accent-mid); border: 1px solid var(--accent); }
 
-  /* progress */
   .progress-section { padding: 0 20px 16px; border-bottom: 1px solid var(--border); }
-  .progress-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    color: var(--muted);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-  }
+  .progress-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
   .progress-bar-outer { height: 4px; background: var(--border2); border-radius: 2px; overflow: hidden; margin-bottom: 6px; }
   .progress-bar-inner { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.4s ease; }
   .progress-nums { display: flex; justify-content: space-between; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); }
 
-  /* phase nav */
   .phase-nav { padding: 16px 20px; flex: 1; }
-  .phase-nav-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    color: var(--muted);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-  }
-  .phase-btn {
-    display: flex; align-items: center; gap: 10px;
-    width: 100%; padding: 9px 10px; border-radius: 8px;
-    border: none; background: transparent; color: var(--muted);
-    cursor: pointer; text-align: left; font-size: 13px;
-    font-family: 'Geist', sans-serif; transition: all 0.15s; margin-bottom: 2px;
-  }
+  .phase-nav-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
+  .phase-btn { display: flex; align-items: center; gap: 10px; width: 100%; padding: 9px 10px; border-radius: 8px; border: none; background: transparent; color: var(--muted); cursor: pointer; text-align: left; font-size: 13px; font-family: 'Geist', sans-serif; transition: all 0.15s; margin-bottom: 2px; }
   .phase-btn:hover { background: var(--surface2); color: var(--text); }
   .phase-btn.active { background: var(--accent-dim); color: var(--accent); border: 1px solid var(--accent-mid); }
   .phase-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
   .phase-btn .phase-comp { margin-left: auto; font-family: 'DM Mono', monospace; font-size: 10px; }
 
-  /* deadline */
   .deadline-box { margin: 0 20px 12px; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
   .deadline-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
   .deadline-count { font-family: 'Instrument Serif', serif; font-size: 28px; color: var(--red); line-height: 1; }
   .deadline-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
 
-  /* export/import in sidebar */
   .io-box { margin: 0 20px 20px; display: flex; gap: 8px; }
-  .io-btn {
-    flex: 1; padding: 8px 6px; border-radius: 8px;
-    border: 1px solid var(--border2); background: var(--surface2);
-    color: var(--muted); font-family: 'DM Mono', monospace; font-size: 10px;
-    cursor: pointer; text-align: center; transition: all 0.15s; letter-spacing: 0.04em;
-  }
+  .io-btn { flex: 1; padding: 8px 6px; border-radius: 8px; border: 1px solid var(--border2); background: var(--surface2); color: var(--muted); font-family: 'DM Mono', monospace; font-size: 10px; cursor: pointer; text-align: center; transition: all 0.15s; letter-spacing: 0.04em; }
   .io-btn:hover { border-color: var(--accent-mid); color: var(--accent); }
 
-  /* ── MAIN ── */
   .main { display: flex; flex-direction: column; min-height: 100vh; }
 
-  /* topbar */
-  .topbar {
-    padding: 20px 32px 16px;
-    border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: space-between;
-    background: var(--bg); position: sticky; top: 0; z-index: 10;
-  }
-  .topbar-left h1 {
-    font-family: 'Instrument Serif', serif;
-    font-size: 20px; font-weight: 400; letter-spacing: -0.02em; margin-bottom: 2px;
-  }
+  .topbar { padding: 20px 32px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: var(--bg); position: sticky; top: 0; z-index: 10; }
+  .topbar-left h1 { font-family: 'Instrument Serif', serif; font-size: 20px; font-weight: 400; letter-spacing: -0.02em; margin-bottom: 2px; }
   .topbar-left p { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); }
   .topbar-right { display: flex; align-items: center; gap: 8px; }
-  .today-badge {
-    font-family: 'DM Mono', monospace; font-size: 11px;
-    padding: 6px 12px; border-radius: 6px;
-    background: var(--surface2); border: 1px solid var(--border); color: var(--muted);
-  }
-  /* hamburger (mobile only) */
-  .hamburger {
-    display: none; width: 36px; height: 36px; border-radius: 8px;
-    background: var(--surface2); border: 1px solid var(--border);
-    cursor: pointer; align-items: center; justify-content: center;
-    flex-direction: column; gap: 4px; padding: 8px;
-  }
-  .hamburger span { display: block; width: 18px; height: 1.5px; background: var(--muted); border-radius: 2px; transition: all 0.2s; }
+  .today-badge { font-family: 'DM Mono', monospace; font-size: 11px; padding: 6px 12px; border-radius: 6px; background: var(--surface2); border: 1px solid var(--border); color: var(--muted); }
 
-  /* content */
+  .hamburger { display: none; width: 36px; height: 36px; border-radius: 8px; background: var(--surface2); border: 1px solid var(--border); cursor: pointer; align-items: center; justify-content: center; flex-direction: column; gap: 4px; padding: 8px; }
+  .hamburger span { display: block; width: 18px; height: 1.5px; background: var(--muted); border-radius: 2px; }
+
   .content { padding: 24px 32px; flex: 1; }
 
-  /* week header */
   .week-header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
   .week-title { font-family: 'Instrument Serif', serif; font-size: 24px; font-weight: 400; letter-spacing: -0.02em; }
   .week-range { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); }
   .week-progress { margin-left: auto; font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); }
 
-  /* day block */
   .day-block { margin-bottom: 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: border-color 0.2s; }
   .day-block.today-block { border-color: var(--accent-mid); }
   .day-block.completed-block { opacity: 0.65; }
 
-  .day-header {
-    display: flex; align-items: center; gap: 10px;
-    padding: 14px 16px; cursor: pointer;
-    border-bottom: 1px solid transparent;
-    user-select: none; transition: background 0.12s; min-height: 52px;
-  }
+  .day-header { display: flex; align-items: center; gap: 10px; padding: 14px 16px; cursor: pointer; border-bottom: 1px solid transparent; user-select: none; transition: background 0.12s; min-height: 52px; }
   .day-header:hover { background: var(--surface2); }
-  .day-block .task-list.open + .day-header,
-  .day-header.expanded { border-bottom-color: var(--border); }
 
   .day-num { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted2); min-width: 36px; flex-shrink: 0; }
   .day-title { font-size: 13px; font-weight: 500; flex: 1; }
@@ -225,344 +121,220 @@
   .day-chevron { font-size: 10px; color: var(--muted2); transition: transform 0.2s; flex-shrink: 0; }
   .day-chevron.open { transform: rotate(180deg); }
 
-  /* tasks */
   .task-list { display: none; }
   .task-list.open { display: block; }
 
-  .task-section-label {
-    font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted2);
-    letter-spacing: 0.08em; text-transform: uppercase; padding: 10px 16px 4px;
-  }
+  .task-section-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted2); letter-spacing: 0.08em; text-transform: uppercase; padding: 10px 16px 4px; }
 
-  .task-item {
-    display: flex; align-items: flex-start; gap: 12px;
-    padding: 10px 16px; cursor: pointer; transition: background 0.1s;
-    min-height: 44px;
-  }
+  .task-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 16px; cursor: pointer; transition: background 0.1s; min-height: 44px; }
   .task-item:hover { background: var(--surface2); }
-  .task-item:active { background: var(--surface2); }
 
-  .task-cb {
-    width: 18px; height: 18px; border: 1.5px solid var(--border2);
-    border-radius: 5px; flex-shrink: 0; margin-top: 1px;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.15s;
-  }
+  .task-cb { width: 18px; height: 18px; border: 1.5px solid var(--border2); border-radius: 5px; flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
   .task-item.done .task-cb { background: var(--accent); border-color: var(--accent); }
-  .task-item.done .task-cb::after {
-    content: ''; width: 9px; height: 5px;
-    border-left: 2px solid #000000; border-bottom: 2px solid #000000;
-    transform: rotate(-45deg) translateY(-1px); display: block;
-  }
+  .task-item.done .task-cb::after { content: ''; width: 9px; height: 5px; border-left: 2px solid #0a0c0f; border-bottom: 2px solid #0a0c0f; transform: rotate(-45deg) translateY(-1px); display: block; }
 
   .task-content { flex: 1; min-width: 0; }
   .task-text { font-size: 13px; line-height: 1.45; transition: color 0.15s; }
   .task-item.done .task-text { text-decoration: line-through; color: var(--muted); }
   .task-sub { font-size: 11px; color: var(--muted2); margin-top: 3px; line-height: 1.4; }
 
-  /* checkpoint */
+  .video-pill { display: inline-flex; align-items: center; gap: 5px; font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 8px; border-radius: 4px; background: var(--accent-dim); border: 1px solid var(--accent-mid); color: var(--accent); margin-top: 5px; text-decoration: none; cursor: pointer; }
+
   .checkpoint-row { margin: 6px 12px 12px; background: var(--surface2); border: 1px solid var(--border2); border-radius: 8px; padding: 10px 12px; }
   .checkpoint-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--accent); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 6px; }
   .checkpoint-items { display: flex; flex-wrap: wrap; gap: 5px; }
   .checkpoint-item { font-size: 11px; color: var(--muted); padding: 3px 8px; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; }
 
-  /* daily non-negotiables */
   .nonneg { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; margin-bottom: 20px; }
   .nonneg-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
   .nonneg-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .nonneg-item {
-    display: flex; align-items: center; gap: 8px;
-    cursor: pointer; padding: 10px; border-radius: 7px;
-    border: 1px solid var(--border); background: var(--surface2);
-    transition: all 0.12s; min-height: 44px;
-  }
+  .nonneg-item { display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 10px; border-radius: 7px; border: 1px solid var(--border); background: var(--surface2); transition: all 0.12s; min-height: 44px; }
   .nonneg-item:hover { border-color: var(--border2); }
   .nonneg-item.done { border-color: var(--accent-mid); background: var(--accent-dim); }
-  .nonneg-cb {
-    width: 16px; height: 16px; border: 1.5px solid var(--border2);
-    border-radius: 4px; flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center; transition: all 0.15s;
-  }
+  .nonneg-cb { width: 16px; height: 16px; border: 1.5px solid var(--border2); border-radius: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
   .nonneg-item.done .nonneg-cb { background: var(--accent); border-color: var(--accent); }
-  .nonneg-item.done .nonneg-cb::after {
-    content: ''; width: 8px; height: 4px;
-    border-left: 1.5px solid #000000; border-bottom: 1.5px solid #000000;
-    transform: rotate(-45deg) translateY(-1px); display: block;
-  }
+  .nonneg-item.done .nonneg-cb::after { content: ''; width: 8px; height: 4px; border-left: 1.5px solid #0a0c0f; border-bottom: 1.5px solid #0a0c0f; transform: rotate(-45deg) translateY(-1px); display: block; }
   .nonneg-text { font-size: 12px; }
   .nonneg-item.done .nonneg-text { color: var(--accent); }
 
-  /* phase divider */
   .phase-divider { display: flex; align-items: center; gap: 12px; margin: 4px 0 16px; }
   .phase-divider-line { flex: 1; height: 1px; background: var(--border); }
   .phase-divider-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; }
 
-  /* modal */
-  .modal-overlay { display: none; position: fixed; inset: 0; background: #000000cc; z-index: 200; align-items: center; justify-content: center; padding: 16px; }
+  .modal-overlay { display: none; position: fixed; inset: 0; background: #0e0b0dcc; z-index: 200; align-items: center; justify-content: center; padding: 16px; }
   .modal-overlay.show { display: flex; }
   .modal { background: var(--surface); border: 1px solid var(--border2); border-radius: 16px; padding: 32px 24px; max-width: 380px; width: 100%; text-align: center; animation: popIn 0.3s cubic-bezier(0.34,1.56,0.64,1); }
-  @keyframes popIn { from { opacity:0; transform:scale(0.85); } to { opacity:1; transform:scale(1); } }
+  @keyframes popIn { from{opacity:0;transform:scale(0.85)} to{opacity:1;transform:scale(1)} }
   .modal-icon { font-size: 44px; margin-bottom: 14px; }
   .modal-title { font-family: 'Instrument Serif', serif; font-size: 24px; letter-spacing: -0.02em; margin-bottom: 8px; color: var(--accent); }
   .modal-sub { font-size: 13px; color: var(--muted); margin-bottom: 24px; line-height: 1.6; }
-  .modal-btn { padding: 12px 28px; background: var(--accent); color: #000000; border: none; border-radius: 8px; font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; cursor: pointer; transition: opacity 0.15s; width: 100%; }
+  .modal-btn { padding: 12px 28px; background: var(--accent); color: #0a0c0f; border: none; border-radius: 8px; font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; cursor: pointer; transition: opacity 0.15s; width: 100%; }
   .modal-btn:hover { opacity: 0.85; }
 
-  /* import modal */
   .import-area { width: 100%; min-height: 80px; background: var(--surface2); border: 1px solid var(--border2); border-radius: 8px; color: var(--text); font-family: 'DM Mono', monospace; font-size: 11px; padding: 10px; margin-bottom: 12px; resize: vertical; }
   .modal-btn-outline { padding: 12px 28px; background: transparent; color: var(--accent); border: 1px solid var(--accent-mid); border-radius: 8px; font-family: 'DM Mono', monospace; font-size: 13px; cursor: pointer; transition: all 0.15s; width: 100%; margin-top: 8px; }
   .modal-btn-outline:hover { background: var(--accent-dim); }
 
-  /* phase colors */
-  .p1 { color: #6eb5ff; } .p2 { color: var(--accent); } .p3 { color: #c084fc; }
-  .p4 { color: var(--gold); } .p5 { color: var(--red); }
+  .p1{color:#a8cff2} .p2{color:var(--accent)} .p3{color:#c084fc} .p4{color:var(--gold)} .p5{color:var(--red)}
 
-  /* ── MOBILE DRAWER ── */
-  .drawer-overlay { display: none; position: fixed; inset: 0; background: #000000aa; z-index: 150; }
+  .drawer-overlay { display: none; position: fixed; inset: 0; background: #0e0b0daa; z-index: 150; }
   .drawer-overlay.show { display: block; }
-
-  .drawer {
-    position: fixed; left: 0; top: 0; bottom: 0; width: 280px;
-    background: var(--surface); border-right: 1px solid var(--border);
-    z-index: 160; display: flex; flex-direction: column;
-    transform: translateX(-100%); transition: transform 0.25s ease;
-    overflow-y: auto;
-  }
+  .drawer { position: fixed; left: 0; top: 0; bottom: 0; width: 280px; background: var(--surface); border-right: 1px solid var(--border); z-index: 160; display: flex; flex-direction: column; transform: translateX(-100%); transition: transform 0.25s ease; overflow-y: auto; }
   .drawer.open { transform: translateX(0); }
 
-  /* ── BOTTOM NAV (mobile only) ── */
-  .bottom-nav {
-    display: none;
-    position: fixed; bottom: 0; left: 0; right: 0;
-    background: var(--surface); border-top: 1px solid var(--border);
-    padding: 8px 0 calc(8px + var(--safe-bottom));
-    z-index: 100;
-    grid-template-columns: repeat(5, 1fr);
-  }
-  .bnav-btn {
-    display: flex; flex-direction: column; align-items: center;
-    gap: 3px; padding: 6px 4px; border: none; background: transparent;
-    color: var(--muted); cursor: pointer; font-family: 'DM Mono', monospace;
-    font-size: 9px; letter-spacing: 0.04em; transition: color 0.15s;
-    min-height: 48px; justify-content: center;
-  }
+  .bottom-nav { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: var(--surface); border-top: 1px solid var(--border); padding: 8px 0 calc(8px + var(--safe-bottom)); z-index: 100; grid-template-columns: repeat(5,1fr); }
+  .bnav-btn { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 6px 4px; border: none; background: transparent; color: var(--muted); cursor: pointer; font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.04em; transition: color 0.15s; min-height: 48px; justify-content: center; }
   .bnav-btn.active { color: var(--accent); }
   .bnav-icon { font-size: 18px; line-height: 1; }
 
-  /* ── MOBILE STATS BAR ── */
-  .mobile-stats {
-    display: none;
-    gap: 0;
-    border-bottom: 1px solid var(--border);
-    background: var(--surface);
-  }
-  .mstat {
-    flex: 1; padding: 10px 8px; text-align: center;
-    border-right: 1px solid var(--border);
-  }
+  .mobile-stats { display: none; gap: 0; border-bottom: 1px solid var(--border); background: var(--surface); }
+  .mstat { flex: 1; padding: 10px 8px; text-align: center; border-right: 1px solid var(--border); }
   .mstat:last-child { border-right: none; }
   .mstat-val { font-family: 'Instrument Serif', serif; font-size: 20px; color: var(--accent); line-height: 1; }
   .mstat-label { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--muted); margin-top: 2px; letter-spacing: 0.04em; }
 
-  /* scrollbar */
   ::-webkit-scrollbar { width: 3px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
 
-  /* ── RESPONSIVE ── */
   @media (max-width: 768px) {
     .shell { grid-template-columns: 1fr; }
     .sidebar { display: none; }
     .hamburger { display: flex; }
     .bottom-nav { display: grid; }
     .mobile-stats { display: flex; }
-
     .main { padding-bottom: calc(64px + var(--safe-bottom)); }
-
     .topbar { padding: 12px 16px; }
     .topbar-left h1 { font-size: 16px; }
     .topbar-left p { font-size: 10px; display: none; }
-    .today-badge { font-size: 10px; padding: 5px 9px; }
-
-    .content { padding: 14px 14px; }
-
-    .week-header { margin-bottom: 14px; }
+    .content { padding: 14px; }
     .week-title { font-size: 18px; }
-    .week-range { font-size: 10px; display: none; }
-
     .day-header { padding: 12px 14px; }
     .day-date { display: none; }
-
     .task-item { padding: 10px 14px; }
     .task-sub { display: none; }
-
-    .nonneg { padding: 12px; margin-bottom: 14px; }
     .nonneg-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
-    .nonneg-item { padding: 8px; }
-    .nonneg-text { font-size: 11px; }
-
-    .checkpoint-items { gap: 4px; }
-    .checkpoint-item { font-size: 10px; }
   }
 
-  @media (max-width: 380px) {
-    .nonneg-grid { grid-template-columns: 1fr; }
-  }
+  @media (max-width: 380px) { .nonneg-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
 
-<!-- MOBILE DRAWER OVERLAY -->
 <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
-
-<!-- MOBILE DRAWER (sidebar content cloned via JS) -->
 <div class="drawer" id="drawer">
   <div class="sidebar-top" style="display:flex;align-items:center;justify-content:space-between">
-    <div>
-      <div class="logo">Success<span>Tracker</span></div>
-      <div class="logo-sub">61-day sprint</div>
-    </div>
+    <div><div class="logo">Arps<span>Tracker</span></div><div class="logo-sub">61-day sprint</div></div>
     <button onclick="closeDrawer()" style="background:transparent;border:none;color:var(--muted);font-size:20px;cursor:pointer;padding:4px">✕</button>
   </div>
-
   <div class="streak-box">
     <div class="streak-label">Current streak</div>
     <div class="streak-num" id="dStreakNum">0</div>
     <div class="streak-sub" id="dStreakSub">days in a row</div>
     <div class="streak-dots" id="dStreakDots"></div>
   </div>
-
   <div class="progress-section">
     <div class="progress-label">Overall progress</div>
     <div class="progress-bar-outer"><div class="progress-bar-inner" id="dGlobalBar" style="width:0%"></div></div>
     <div class="progress-nums"><span id="dGlobalDone">0 tasks done</span><span id="dGlobalPct">0%</span></div>
   </div>
-
   <div class="phase-nav">
     <div class="phase-nav-label">Phases</div>
-    <button class="phase-btn active" onclick="showPhase(0);closeDrawer()" id="dpb0"><span class="phase-dot" style="background:#6eb5ff"></span>Phase 1 · Setup<span class="phase-comp p1" id="dpc0"></span></button>
-    <button class="phase-btn" onclick="showPhase(1);closeDrawer()" id="dpb1"><span class="phase-dot" style="background:#a8cff2"></span>Phase 2 · Build<span class="phase-comp p2" id="dpc1"></span></button>
-    <button class="phase-btn" onclick="showPhase(2);closeDrawer()" id="dpb2"><span class="phase-dot" style="background:#c084fc"></span>Phase 3 · Community<span class="phase-comp p3" id="dpc2"></span></button>
-    <button class="phase-btn" onclick="showPhase(3);closeDrawer()" id="dpb3"><span class="phase-dot" style="background:#f0c878"></span>Phase 4 · Apply<span class="phase-comp p4" id="dpc3"></span></button>
-    <button class="phase-btn" onclick="showPhase(4);closeDrawer()" id="dpb4"><span class="phase-dot" style="background:#ff7b7b"></span>Phase 5 · Close<span class="phase-comp p5" id="dpc4"></span></button>
+    <button class="phase-btn active" onclick="showPhase(0);closeDrawer()" id="dpb0"><span class="phase-dot" style="background:#a8cff2"></span>Phase 0 · Foundations<span class="phase-comp p1" id="dpc0"></span></button>
+    <button class="phase-btn" onclick="showPhase(1);closeDrawer()" id="dpb1"><span class="phase-dot" style="background:#a8cff2"></span>Phase 1 · Build<span class="phase-comp p2" id="dpc1"></span></button>
+    <button class="phase-btn" onclick="showPhase(2);closeDrawer()" id="dpb2"><span class="phase-dot" style="background:#c084fc"></span>Phase 2 · Deploy<span class="phase-comp p3" id="dpc2"></span></button>
+    <button class="phase-btn" onclick="showPhase(3);closeDrawer()" id="dpb3"><span class="phase-dot" style="background:#f0c878"></span>Phase 3 · Community<span class="phase-comp p4" id="dpc3"></span></button>
+    <button class="phase-btn" onclick="showPhase(4);closeDrawer()" id="dpb4"><span class="phase-dot" style="background:#ff7b7b"></span>Phase 4 · Close<span class="phase-comp p5" id="dpc4"></span></button>
   </div>
-
   <div class="deadline-box">
     <div class="deadline-label">Days to Jul 31</div>
     <div class="deadline-count" id="dDaysLeft">—</div>
     <div class="deadline-sub">offer deadline</div>
   </div>
-
   <div class="io-box">
     <button class="io-btn" onclick="exportData();closeDrawer()">⬇ Export</button>
     <button class="io-btn" onclick="showImport()">⬆ Import</button>
   </div>
 </div>
 
-<!-- MAIN SHELL -->
 <div class="shell">
-
-  <!-- DESKTOP SIDEBAR -->
   <aside class="sidebar">
     <div class="sidebar-top">
-      <div class="logo">Success<span>Tracker</span></div>
+      <div class="logo">Arps<span>Tracker</span></div>
       <div class="logo-sub">61-day agent engineer sprint</div>
     </div>
-
     <div class="streak-box">
       <div class="streak-label">Current streak</div>
       <div class="streak-num" id="streakNum">0</div>
       <div class="streak-sub" id="streakSub">days in a row</div>
       <div class="streak-dots" id="streakDots"></div>
     </div>
-
     <div class="progress-section">
       <div class="progress-label">Overall progress</div>
       <div class="progress-bar-outer"><div class="progress-bar-inner" id="globalBar" style="width:0%"></div></div>
       <div class="progress-nums"><span id="globalDone">0 tasks done</span><span id="globalPct">0%</span></div>
     </div>
-
     <div class="phase-nav">
       <div class="phase-nav-label">Phases</div>
-      <button class="phase-btn active" onclick="showPhase(0)" id="pb0"><span class="phase-dot" style="background:#6eb5ff"></span>Phase 1 · Setup<span class="phase-comp p1" id="pc0"></span></button>
-      <button class="phase-btn" onclick="showPhase(1)" id="pb1"><span class="phase-dot" style="background:#a8cff2"></span>Phase 2 · Build<span class="phase-comp p2" id="pc1"></span></button>
-      <button class="phase-btn" onclick="showPhase(2)" id="pb2"><span class="phase-dot" style="background:#c084fc"></span>Phase 3 · Community<span class="phase-comp p3" id="pc2"></span></button>
-      <button class="phase-btn" onclick="showPhase(3)" id="pb3"><span class="phase-dot" style="background:#f0c878"></span>Phase 4 · Apply<span class="phase-comp p4" id="pc3"></span></button>
-      <button class="phase-btn" onclick="showPhase(4)" id="pb4"><span class="phase-dot" style="background:#ff7b7b"></span>Phase 5 · Close<span class="phase-comp p5" id="pc4"></span></button>
+      <button class="phase-btn active" onclick="showPhase(0)" id="pb0"><span class="phase-dot" style="background:#a8cff2"></span>Phase 0 · Foundations<span class="phase-comp p1" id="pc0"></span></button>
+      <button class="phase-btn" onclick="showPhase(1)" id="pb1"><span class="phase-dot" style="background:#a8cff2"></span>Phase 1 · Build<span class="phase-comp p2" id="pc1"></span></button>
+      <button class="phase-btn" onclick="showPhase(2)" id="pb2"><span class="phase-dot" style="background:#c084fc"></span>Phase 2 · Deploy<span class="phase-comp p3" id="pc2"></span></button>
+      <button class="phase-btn" onclick="showPhase(3)" id="pb3"><span class="phase-dot" style="background:#f0c878"></span>Phase 3 · Community<span class="phase-comp p4" id="pc3"></span></button>
+      <button class="phase-btn" onclick="showPhase(4)" id="pb4"><span class="phase-dot" style="background:#ff7b7b"></span>Phase 4 · Close<span class="phase-comp p5" id="pc4"></span></button>
     </div>
-
     <div class="deadline-box">
       <div class="deadline-label">Days to Jul 31</div>
       <div class="deadline-count" id="daysLeft">—</div>
       <div class="deadline-sub">offer deadline</div>
     </div>
-
     <div class="io-box">
       <button class="io-btn" onclick="exportData()">⬇ Export</button>
       <button class="io-btn" onclick="showImport()">⬆ Import</button>
     </div>
   </aside>
 
-  <!-- MAIN CONTENT -->
   <main class="main">
     <div class="topbar">
       <div class="topbar-left">
-        <h1 id="phaseTitle">Phase 1 · Setup + Domain Lock</h1>
-        <p id="phaseRange">May 31 – Jun 9 · Days 1–10</p>
+        <h1 id="phaseTitle">Phase 0 · Foundations</h1>
+        <p id="phaseRange">Jun 12–14 · Days 1–3</p>
       </div>
       <div class="topbar-right">
         <div class="today-badge" id="todayBadge">—</div>
-        <div class="hamburger" onclick="openDrawer()">
-          <span></span><span></span><span></span>
-        </div>
+        <div class="hamburger" onclick="openDrawer()"><span></span><span></span><span></span></div>
       </div>
     </div>
-
-    <!-- MOBILE STATS BAR -->
     <div class="mobile-stats">
-      <div class="mstat">
-        <div class="mstat-val" id="mStreak">0</div>
-        <div class="mstat-label">streak</div>
-      </div>
-      <div class="mstat">
-        <div class="mstat-val" id="mDone">0</div>
-        <div class="mstat-label">done</div>
-      </div>
-      <div class="mstat">
-        <div class="mstat-val" id="mDays" style="color:var(--red)">—</div>
-        <div class="mstat-label">days left</div>
-      </div>
+      <div class="mstat"><div class="mstat-val" id="mStreak">0</div><div class="mstat-label">streak</div></div>
+      <div class="mstat"><div class="mstat-val" id="mDone">0</div><div class="mstat-label">done</div></div>
+      <div class="mstat"><div class="mstat-val" id="mDays" style="color:var(--red)">—</div><div class="mstat-label">days left</div></div>
     </div>
-
     <div class="content" id="mainContent"></div>
   </main>
 </div>
 
-<!-- BOTTOM NAV (mobile) -->
 <nav class="bottom-nav" id="bottomNav">
-  <button class="bnav-btn active" onclick="showPhase(0)" id="bnav0"><span class="bnav-icon">🔵</span>Setup</button>
+  <button class="bnav-btn active" onclick="showPhase(0)" id="bnav0"><span class="bnav-icon">📚</span>Found.</button>
   <button class="bnav-btn" onclick="showPhase(1)" id="bnav1"><span class="bnav-icon">🔨</span>Build</button>
-  <button class="bnav-btn" onclick="showPhase(2)" id="bnav2"><span class="bnav-icon">🤝</span>Community</button>
-  <button class="bnav-btn" onclick="showPhase(3)" id="bnav3"><span class="bnav-icon">📨</span>Apply</button>
+  <button class="bnav-btn" onclick="showPhase(2)" id="bnav2"><span class="bnav-icon">🚀</span>Deploy</button>
+  <button class="bnav-btn" onclick="showPhase(3)" id="bnav3"><span class="bnav-icon">🤝</span>Apply</button>
   <button class="bnav-btn" onclick="showPhase(4)" id="bnav4"><span class="bnav-icon">🏁</span>Close</button>
 </nav>
 
-<!-- CONGRATS MODAL -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
     <div class="modal-icon" id="modalIcon">🔥</div>
-    <div class="modal-title" id="modalTitle">Week Complete!</div>
+    <div class="modal-title" id="modalTitle">Phase Complete!</div>
     <div class="modal-sub" id="modalSub">You crushed it.</div>
     <button class="modal-btn" onclick="closeModal()">Keep going →</button>
   </div>
 </div>
 
-<!-- IMPORT MODAL -->
 <div class="modal-overlay" id="importOverlay">
   <div class="modal">
     <div class="modal-icon">📂</div>
     <div class="modal-title">Import Progress</div>
-    <div class="modal-sub">Paste your exported JSON below. This will overwrite your current progress.</div>
+    <div class="modal-sub">Paste your exported JSON below. This will overwrite current progress.</div>
     <textarea class="import-area" id="importArea" placeholder='{"tasks":{...}}'></textarea>
     <button class="modal-btn" onclick="doImport()">Import & Save</button>
     <button class="modal-btn-outline" onclick="closeImport()">Cancel</button>
@@ -570,909 +342,731 @@
 </div>
 
 <script>
-// ── DATA ──────────────────────────────────────────────────────────────────────
-
-const START_DATE = new Date('2026-05-31');
+const START_DATE = new Date('2026-06-12');
 const END_DATE   = new Date('2026-07-31');
 const TODAY      = new Date();
 TODAY.setHours(0,0,0,0);
 
-function dayNum(d) { return Math.floor((d - START_DATE) / 86400000) + 1; }
-
-function dayDateKey(day) {
-  const d = new Date(START_DATE);
-  d.setDate(d.getDate() + day - 1);
-  return d.toISOString().split('T')[0];
-}
-
-function todayKey() { return TODAY.toISOString().split('T')[0]; }
+function dayNum(d){ return Math.floor((d - START_DATE)/86400000)+1; }
+function dayDateKey(day){ const d=new Date(START_DATE); d.setDate(d.getDate()+day-1); return d.toISOString().split('T')[0]; }
+function todayKey(){ return TODAY.toISOString().split('T')[0]; }
 
 const PHASES = [
-  // ─── PHASE 1 ───────────────────────────────────────────────────────────────
-  {
-    id:0, title:'Phase 1 · Setup + Domain Lock', range:'May 31 – Jun 9 · Days 1–10', color:'#6eb5ff',
-    weeks:[{
-      title:'Week 1', range:'May 31 – Jun 6', subtitle:'Setup + First Agent Loop',
+// ── PHASE 0: FOUNDATIONS ────────────────────────────────────────────────────
+{
+  id:0, title:'Phase 0 · Foundations', range:'Jun 12–14 · Days 1–3', color:'#a8cff2',
+  weeks:[{
+    title:'Foundation Sprint', range:'Jun 12–14', subtitle:'3 videos · 3 builds · domain locked',
+    days:[
+      { day:1, date:'Jun 12', title:'Python OOP — watch then build',
+        sections:[
+          { label:'Morning · Watch', tasks:[
+            {id:'p0d1t1', text:'Watch: "Python OOP in 1 hour" by Tech With Tim', sub:'youtube.com/watch?v=JeznW_7DlB0 — watch once, take no notes, just absorb', video:'https://youtube.com/watch?v=JeznW_7DlB0'},
+          ]},
+          { label:'Afternoon · Build immediately after', tasks:[
+            {id:'p0d1t2', text:'Rewrite your agent.py using classes — class ResearchAgent: with methods for each action', sub:'__init__, fetch_papers, summarize, detect_contradictions, format_brief. 2 hours max.'},
+            {id:'p0d1t3', text:'Commit the OOP version to GitHub', sub:'Message: "refactor: OOP architecture". This is your first real commit.'},
+          ]},
+          { label:'Evening', tasks:[
+            {id:'p0d1t4', text:'Write GitHub bio: "AI engineer · agentic systems · LangGraph · building ArpsTracker"', sub:'Do this right now. Takes 2 min. Signals commitment publicly.'},
+            {id:'p0d1t5', text:'3 Discord answers in LangChain server', sub:'Find easy questions. Give value. Value first always.'},
+            {id:'p0d1t6', text:'Post 1 on X/LinkedIn: "Day 1. Starting my 50-day AI engineering sprint. OOP foundations done."', sub:''},
+          ]}
+        ],
+        checkpoint:['OOP agent.py committed','GitHub bio updated','3 Discord answers','Post 1 published']
+      },
+      { day:2, date:'Jun 13', title:'LangChain basics — watch then build',
+        sections:[
+          { label:'Morning · Watch', tasks:[
+            {id:'p0d2t1', text:'Watch: "LangChain Explained in 13 Minutes" by Rabbitmetrics', sub:'youtube.com/watch?v=aywZrzNaKjs — 13 min only. Then close YouTube immediately.', video:'https://youtube.com/watch?v=aywZrzNaKjs'},
+          ]},
+          { label:'Afternoon · Build', tasks:[
+            {id:'p0d2t2', text:'Build one LangChain chain: topic → arXiv search → summary. 30 lines.', sub:'from langchain_groq import ChatGroq. Use your Groq API key. Free tier.'},
+            {id:'p0d2t3', text:'Get it running with a real topic: "LLM agents 2025"', sub:'If it returns a real summary of real papers — done. Ugly output is fine.'},
+            {id:'p0d2t4', text:'Commit: "feat: first langchain chain working"', sub:''},
+          ]},
+          { label:'Evening', tasks:[
+            {id:'p0d2t5', text:'Set up conda env: conda create -n agents python=3.11', sub:'Install: langgraph langchain langchain-groq chromadb fastapi uvicorn arxiv sqlalchemy'},
+            {id:'p0d2t6', text:'Create Modal account at modal.com — deploy hello world FastAPI', sub:'Get deployment working today. Removes friction for every day after.'},
+            {id:'p0d2t7', text:'3 Discord answers + 1 outreach to an engineer at Elicit or Hebbia on X', sub:'Reference their specific work. Share what you are building.'},
+          ]}
+        ],
+        checkpoint:['LangChain chain running','Conda env set up','Modal account + hello world deployed','First outreach sent']
+      },
+      { day:3, date:'Jun 14', title:'LangGraph — watch then build · DOMAIN LOCKED',
+        sections:[
+          { label:'Morning · Watch', tasks:[
+            {id:'p0d3t1', text:'Watch: "LangGraph Tutorial for Beginners" by LangChain official', sub:'youtube.com/watch?v=pbAd8O1Lvm4 — 30 min. Then never watch another video unless stuck.', video:'https://youtube.com/watch?v=pbAd8O1Lvm4'},
+          ]},
+          { label:'Afternoon · Build', tasks:[
+            {id:'p0d3t2', text:'Copy their exact example first — get it running locally', sub:'Muscle memory over theory. Copy it line by line. Understand each line as you go.'},
+            {id:'p0d3t3', text:'Replace their tools with your arXiv search tool from Day 2', sub:'Now you have a LangGraph agent doing real arXiv search. This is your foundation.'},
+            {id:'p0d3t4', text:'Commit: "feat: langgraph agent with arxiv tool"', sub:''},
+          ]},
+          { label:'Evening · LOCK DOMAIN', tasks:[
+            {id:'p0d3t5', text:'🔒 LOCK YOUR DOMAIN: AI Agents. Write it. Post it. No changing.', sub:'"I am specialising in AI agents and agentic systems engineering." Post this on X and LinkedIn right now.'},
+            {id:'p0d3t6', text:'Read ReAct paper — abstract + intro + results only. 30 min.', sub:'Yao et al. 2022. Search "ReAct synergizing reasoning acting" on arXiv. Note where the approach fails.'},
+            {id:'p0d3t7', text:'3 Discord answers + post 2: "Domain locked: AI Agents. Here is why and what I am building."', sub:''},
+          ]}
+        ],
+        checkpoint:['LangGraph agent with arXiv tool running','Domain locked publicly','ReAct paper notes started','Post 2 published']
+      }
+    ]
+  }]
+},
+
+// ── PHASE 1: BUILD ──────────────────────────────────────────────────────────
+{
+  id:1, title:'Phase 1 · Build ArpsTracker', range:'Jun 15–28 · Days 4–17', color:'#a8cff2',
+  weeks:[
+    {
+      title:'Week 2', range:'Jun 15–21', subtitle:'Core pipeline — ugly and working',
       days:[
-        { day:1, date:'May 31', title:'Lock & Setup',
+        { day:4, date:'Jun 15', title:'Watch agent video + start pipeline',
           sections:[
-            { label:'Morning · 2 hrs', tasks:[
-              {id:'d1t1',text:'Write GitHub bio: "AI engineer · agentic systems · LangGraph · building SuccessTracker"',sub:'Do this first. Takes 2 min. Signals commitment publicly.'},
-              {id:'d1t2',text:'Set up conda env: conda create -n agents python=3.11 then install anthropic langgraph langchain chromadb fastapi uvicorn arxiv',sub:'Test with a working LLM call before moving on.'},
-              {id:'d1t3',text:'Create Modal account + deploy a hello-world FastAPI endpoint',sub:'Get deployment working today — removes friction for every day after.'},
-              {id:'d1t4',text:'Create repo: successtracker — add src/ tests/ docs/ .env.example Makefile README skeleton',sub:'Professional structure from day 1 signals seniority before anyone reads code.'},
+            { label:'Morning · Watch', tasks:[
+              {id:'p1d4t1', text:'Watch: "LLM Agents explained" by Sam Witteveen', sub:'youtube.com/watch?v=wd7GA8a6fRk — 20 min. Last foundation video. Then build only.', video:'https://youtube.com/watch?v=wd7GA8a6fRk'},
             ]},
-            { label:'Afternoon · 2 hrs', tasks:[
-              {id:'d1t5',text:'Read ReAct paper (Yao et al.) — abstract + intro + results section only',sub:'Note: what is the reasoning-acting loop? Where does it fail? 30 min max.'},
-              {id:'d1t6',text:'Write 5-line notes in docs/paper-notes.md — keep this file public',sub:'This becomes blog content. Start the habit now.'},
+            { label:'Afternoon · Build', tasks:[
+              {id:'p1d4t2', text:'Build ArpsTracker 5-node LangGraph state machine', sub:'Nodes: fetch_papers → filter_relevant → summarize → detect_contradictions → format_brief'},
+              {id:'p1d4t3', text:'Define AgentState TypedDict — what lives in state between each node', sub:'Get first 3 nodes working today. Contradiction and format nodes come tomorrow.'},
             ]},
-            { label:'Evening · 1 hr', tasks:[
-              {id:'d1t7',text:'Join Discord: LangChain official + Eleuther AI + Hugging Face',sub:'Find easy questions. Give 3 answers. Value first, always.'},
-              {id:'d1t8',text:'Post on X/LinkedIn: "Day 1. Building in public. Here is what I set up today." + repo screenshot',sub:'First of 12 posts. Consistency beats polish.'},
+            { label:'Evening', tasks:[
+              {id:'p1d4t4', text:'3 Discord answers + 1 outreach + commit', sub:''},
             ]}
           ],
-          checkpoint:['GitHub bio updated','Conda env working','Modal deployed','Repo live','ReAct notes done','3 Discord answers','Post 1 published']
+          checkpoint:['5-node architecture designed','First 3 nodes working','AgentState defined']
         },
-        { day:2, date:'Jun 1', title:'First Agent Loop',
+        { day:5, date:'Jun 16', title:'ChromaDB memory + contradiction detection',
           sections:[
-            { label:'Morning · 2 hrs', tasks:[
-              {id:'d2t1',text:'Build raw ReAct loop — arXiv search tool + summarize tool using Claude API',sub:'Goal: agent receives topic → searches arXiv → summarizes top 3 results. ~150 lines.'},
-              {id:'d2t2',text:'Get it running end to end even if output quality is bad',sub:'Ugly is fine. Core loop working is the only metric today.'},
+            { label:'All day · Build', tasks:[
+              {id:'p1d5t1', text:'Add ChromaDB vector memory — embed every paper: title, abstract, authors, date, arXiv ID', sub:'Every paper fetched gets embedded and stored. Build the knowledge base from day 1.'},
+              {id:'p1d5t2', text:'Add check_prior_knowledge node — before summarizing, check if we have seen related papers', sub:'Retrieve 5 most similar prior papers. Pass them as context to the summarize node.'},
+              {id:'p1d5t3', text:'Build detect_contradictions node — hardest and most impressive part', sub:'Embed new findings → retrieve 5 similar → ask Groq: "Do these contradict? Confidence 0-1."'},
+              {id:'p1d5t4', text:'Store contradiction detections in SQLite: paper_id_1, paper_id_2, contradiction_text, confidence, date', sub:''},
             ]},
-            { label:'Afternoon · 2 hrs', tasks:[
-              {id:'d2t3',text:'Read LangGraph quickstart docs fully — nodes, edges, state, conditional routing',sub:'This is your orchestration layer. Understand it before writing a single LangGraph line.'},
-              {id:'d2t4',text:'Read Toolformer paper — abstract + intro + results only. Write notes.',sub:'30 min. Focus on how tool selection works under the hood.'},
-            ]},
-            { label:'Evening · 1 hr', tasks:[
-              {id:'d2t5',text:'3 Discord answers in LangChain or Eleuther AI',sub:'Find easy questions you know the answer to.'},
-              {id:'d2t6',text:'First outreach — find one engineer at Elicit or Hebbia on X. Reference specific work. Share repo.',sub:'"I am building X, your work on Y is relevant. Here is the repo."'},
-              {id:'d2t7',text:'Commit everything to GitHub',sub:'Day 2 of your streak. Never miss.'},
+            { label:'Evening', tasks:[
+              {id:'p1d5t5', text:'Read Toolformer paper — abstract + intro + results. Write 5-line notes.', sub:'30 min. Focus: how does tool selection work under the hood?'},
+              {id:'p1d5t6', text:'3 Discord answers + 1 outreach + commit', sub:''},
             ]}
           ],
-          checkpoint:['ReAct loop working','LangGraph docs fully read','Toolformer notes done','First outreach sent']
+          checkpoint:['ChromaDB integrated','Prior knowledge check working','Contradiction detection node built','SQLite storing detections']
         },
-        { day:3, date:'Jun 2', title:'Migrate to LangGraph',
+        { day:6, date:'Jun 17', title:'Run pipeline on 20 papers — log failures',
           sections:[
-            { label:'Morning · 3 hrs', tasks:[
-              {id:'d3t1',text:'Rebuild agent in LangGraph — 5-node state machine',sub:'Nodes: fetch_papers → filter_relevant → summarize → detect_contradictions → format_brief'},
-              {id:'d3t2',text:'Define AgentState TypedDict — what lives in state between nodes',sub:'Get first 3 nodes working. detect_contradictions and format_brief come Day 4-5.'},
+            { label:'Morning', tasks:[
+              {id:'p1d6t1', text:'Run full pipeline on 20 real arXiv papers — topic: "LLM agents"', sub:'Log every failure. Do NOT fix yet. Categorise: wrong summary, missed contradiction, hallucinated citation, slow.'},
+              {id:'p1d6t2', text:'Add per-node logging: input size, output, latency, cost in USD, success/fail', sub:'Even a simple CSV. You need this data before deployment.'},
             ]},
-            { label:'Afternoon · 1.5 hrs', tasks:[
-              {id:'d3t3',text:'Read CoALA paper (Cognitive Architectures for Language Agents) — Sumers et al. 2023',sub:'Focus on taxonomy: memory types, action spaces, decision making. Pull 3 quotes for blog.'},
-              {id:'d3t4',text:'Write notes in docs/paper-notes.md',sub:'This paper makes you sound senior in interviews. Know it cold.'},
+            { label:'Afternoon', tasks:[
+              {id:'p1d6t3', text:'Fix top 3 failures from the log', sub:'Likely: hallucinated citations (only cite retrieved papers), slow detection (batch embed), wrong filtering (tune threshold).'},
+              {id:'p1d6t4', text:'Add format_brief node — structured JSON output', sub:'Top 3 findings (cited), 1 contradiction detected, 3 follow-up experiments, confidence scores.'},
             ]},
-            { label:'Evening · 1 hr', tasks:[
-              {id:'d3t5',text:'3 Discord answers',sub:''},
-              {id:'d3t6',text:'Post 2: "Migrated to LangGraph state machine. Here is the architecture diagram and why I made this choice."',sub:'Architecture decision posts get shared by engineers. Include the diagram.'},
-              {id:'d3t7',text:'Commit everything',sub:''},
+            { label:'Evening', tasks:[
+              {id:'p1d6t5', text:'Read CoALA paper — Cognitive Architectures for Language Agents. Note taxonomy.', sub:'Makes you sound senior instantly. Focus: memory types, action spaces, decision making.'},
+              {id:'p1d6t6', text:'Post 3: "3 ways my pipeline was failing and how I fixed them. Real numbers."', sub:'Failure posts get more engagement than success posts.'},
+              {id:'p1d6t7', text:'3 Discord answers + 1 outreach + commit', sub:''},
             ]}
           ],
-          checkpoint:['LangGraph state machine with 3 nodes','AgentState defined cleanly','CoALA notes done','Architecture diagram posted publicly']
+          checkpoint:['20 papers run','Top 3 failures fixed','Per-node logging active','format_brief node done','CoALA notes written']
         },
-        { day:4, date:'Jun 3', title:'Add ChromaDB Memory',
+        { day:7, date:'Jun 18', title:'Eval suite — baseline numbers',
           sections:[
-            { label:'Morning · 2.5 hrs', tasks:[
-              {id:'d4t1',text:'Add ChromaDB vector memory — embed every paper fetched',sub:'Store: title, abstract, authors, date, arXiv ID. Build the knowledge base from day 1.'},
-              {id:'d4t2',text:'Add check_prior_knowledge node before summarization',sub:'If similar paper seen before: pull it and pass as context to summarize node.'},
+            { label:'Morning', tasks:[
+              {id:'p1d7t1', text:'Define 5 eval metrics as runnable Python functions', sub:'Brief quality (1-5 manual), citation accuracy, contradiction precision, cost/brief, latency/brief.'},
+              {id:'p1d7t2', text:'Build 30-item golden eval set — 5 papers each batch, manually curated', sub:'For 10 batches: plant a known contradiction. You need ground truth to measure against.'},
             ]},
-            { label:'Afternoon · 1.5 hrs', tasks:[
-              {id:'d4t3',text:'Read MemGPT paper — tiered memory architecture. Note failure modes.',sub:'You are implementing a simpler version. Understanding the full version makes you credible.'},
-              {id:'d4t4',text:'Browse LangGraph GitHub issues — find one labelled good-first-issue or documentation',sub:'Identify it today. Submit the PR next week.'},
+            { label:'Afternoon', tasks:[
+              {id:'p1d7t3', text:'Run pipeline on all 30. Record scores on all 5 metrics.', sub:'These are your BASELINE NUMBERS. Write them down. They go in your blog post and every interview.'},
             ]},
-            { label:'Evening · 1 hr', tasks:[
-              {id:'d4t5',text:'3 Discord answers',sub:''},
-              {id:'d4t6',text:'Outreach: email a professor whose work relates to agents. Share what you are building.',sub:'Free expert feedback. Most professors reply to students.'},
-              {id:'d4t7',text:'Commit everything',sub:''},
+            { label:'Evening', tasks:[
+              {id:'p1d7t4', text:'Read MemGPT paper — tiered memory architecture. Note failure modes.', sub:'You are implementing a simpler version. Understanding the full version makes you credible.'},
+              {id:'p1d7t5', text:'Post 4: Week 1 complete. Baseline numbers published. Real metrics only.', sub:'"Citation accuracy: X%. Contradiction detection: Y%. Cost: $Z/brief."'},
+              {id:'p1d7t6', text:'3 Discord answers + 1 outreach + commit', sub:''},
             ]}
           ],
-          checkpoint:['ChromaDB memory integrated','Prior knowledge node working','MemGPT notes done','OSS issue identified']
+          checkpoint:['5 eval metrics as Python functions','30-item golden eval set','Baseline numbers on all 5 metrics recorded','Post 4 published']
         },
-        { day:5, date:'Jun 4', title:'Contradiction Detection',
+        { day:8, date:'Jun 19', title:'Browse LangGraph GitHub + watch ReAct video',
           sections:[
-            { label:'Morning · 2.5 hrs', tasks:[
-              {id:'d5t1',text:'Build detect_contradictions node — the hardest and most impressive part',sub:'Embed new findings → retrieve 5 similar prior papers → ask Claude: "Do these contradict? Confidence 0-1."'},
-              {id:'d5t2',text:'Store detections in SQLite: paper_id_1, paper_id_2, contradiction_text, confidence_score, date_detected',sub:'This becomes your eval ground truth.'},
+            { label:'Morning · Watch', tasks:[
+              {id:'p1d8t1', text:'Watch: "ReAct paper explained" by Yannic Kilcher', sub:'youtube.com/watch?v=WE_pf8oASAM — 30 min. Understand the paper deeply before you cite it.', video:'https://youtube.com/watch?v=WE_pf8oASAM'},
             ]},
-            { label:'Afternoon · 1.5 hrs', tasks:[
-              {id:'d5t3',text:'Run full pipeline on 20 arXiv papers — topic: "LLM agents"',sub:'Log every failure. Do not fix yet. Categorise: wrong summary, missed contradiction, hallucinated citation, slow.'},
+            { label:'Afternoon', tasks:[
+              {id:'p1d8t2', text:'Browse LangGraph GitHub issues — find one labelled good-first-issue or documentation', sub:'Identify the issue. Read the codebase around it. You submit the PR in Phase 2.'},
+              {id:'p1d8t3', text:'Fix top 2 failures from eval run — improve citation accuracy first', sub:'Only cite papers actually retrieved. Add source IDs to every claim in the brief.'},
             ]},
-            { label:'Evening · 1 hr', tasks:[
-              {id:'d5t4',text:'3 Discord answers',sub:''},
-              {id:'d5t5',text:'Post 3: "Contradiction detection node is live. Here is my approach and 2 real contradictions I found."',sub:'Real findings outperform polished demos every time.'},
-              {id:'d5t6',text:'Commit everything',sub:''},
+            { label:'Evening', tasks:[
+              {id:'p1d8t4', text:'Outreach: email a professor whose work relates to agents. Share what you are building.', sub:'Free expert feedback. Most professors reply to students.'},
+              {id:'p1d8t5', text:'3 Discord answers + commit', sub:''},
             ]}
           ],
-          checkpoint:['Contradiction detection working','SQLite storing detections','20 papers run through pipeline','Failure log documented']
+          checkpoint:['ReAct paper understood deeply','OSS issue identified','Citation accuracy improved']
         },
-        { day:6, date:'Jun 5', title:'Fix Failures + Logging',
+        { day:9, date:'Jun 20', title:'System design prep begins',
           sections:[
-            { label:'Morning · 2.5 hrs', tasks:[
-              {id:'d6t1',text:'Fix top 3 failures from Day 5 log',sub:'Likely: hallucinated citations (only cite retrieved papers), slow detection (batch embed), wrong filtering (tune threshold).'},
-              {id:'d6t2',text:'Add per-node logging: input size, output, latency, cost in USD, success/fail',sub:'Even a simple CSV. You need this data before deployment.'},
+            { label:'Morning', tasks:[
+              {id:'p1d9t1', text:'System design Problem 1: "Design ArpsTracker at scale — 10,000 users, custom domains"', sub:'Write full answer: component diagram, data flow, queuing, memory isolation per user, cost model at scale.'},
+              {id:'p1d9t2', text:'System design Problem 2: "Design an agent that browses web and completes multi-step tasks"', sub:'State machine, failure handling, irreversible action prevention. Write it fully in 45 min.'},
             ]},
-            { label:'Afternoon · 1.5 hrs', tasks:[
-              {id:'d6t3',text:'Read AgentBench paper — evaluation methodology only',sub:'How do they define task completion? Partial credit? This informs your eval design.'},
-              {id:'d6t4',text:'Define 5 eval metrics as runnable Python functions',sub:'Brief quality, citation accuracy, contradiction precision, cost/brief, latency/brief.'},
+            { label:'Afternoon', tasks:[
+              {id:'p1d9t3', text:'Find alumni from your university at Sarvam AI or Krutrim on LinkedIn. Message 3.', sub:'Same-university connection has 60%+ reply rate. "Hi, current CSE AIML student here..."'},
+              {id:'p1d9t4', text:'Build your CRM spreadsheet: company, contact, role, connection type, status, next action', sub:'15 target companies minimum. This is your job search operating system.'},
             ]},
-            { label:'Evening · 1 hr', tasks:[
-              {id:'d6t5',text:'3 Discord answers',sub:''},
-              {id:'d6t6',text:'Outreach: find alumni from your university at Sarvam AI or Krutrim on LinkedIn',sub:'Same-university connection has 60%+ reply rate.'},
-              {id:'d6t7',text:'Commit everything',sub:''},
+            { label:'Evening', tasks:[
+              {id:'p1d9t5', text:'3 Discord answers + 1 outreach + commit', sub:''},
             ]}
           ],
-          checkpoint:['Top 3 failures fixed','Per-node logging live','5 eval metrics as Python functions','Alumni outreach sent']
+          checkpoint:['System design 1-2 written','CRM with 15 companies built','3 alumni messaged']
         },
-        { day:7, date:'Jun 6', title:'Eval Suite + Baseline',
+        { day:10, date:'Jun 21', title:'Re-run evals + system design 3-4',
           sections:[
-            { label:'Morning · 2 hrs', tasks:[
-              {id:'d7t1',text:'Build 30-item golden eval set — 5 papers each batch, manually curated',sub:'For 10 batches: plant a known contradiction to test detection accuracy.'},
-              {id:'d7t2',text:'Run pipeline on all 30. Record scores on all 5 metrics.',sub:'These are your BASELINE NUMBERS. Write them down. They go in your blog post and every interview.'},
+            { label:'Morning', tasks:[
+              {id:'p1d10t1', text:'Re-run full eval suite after fixes — record new numbers vs baseline', sub:'"Citation accuracy went from 67% to 84%." This is your money quote for every interview.'},
+              {id:'p1d10t2', text:'System design Problem 3: "How do you evaluate an autonomous agent when there is no single correct answer?"', sub:'Reference your actual eval methodology from ArpsTracker. This is your killer answer — you did it for real.'},
             ]},
-            { label:'Afternoon · 1.5 hrs', tasks:[
-              {id:'d7t3',text:'Add format_brief node — structured JSON output with sections',sub:'Top 3 findings (cited), 1 contradiction detected, 3 follow-up experiments, confidence scores.'},
+            { label:'Afternoon', tasks:[
+              {id:'p1d10t3', text:'System design Problem 4: "Multi-agent system — planner delegates to specialists"', sub:'Communication protocol, conflict resolution, partial failure handling between agents.'},
+              {id:'p1d10t4', text:'Practice project pitch out loud — record yourself on phone. 8 minutes.', sub:'Problem → architecture → what broke → numbers → what is next. Watch it back. Cut filler words.'},
             ]},
-            { label:'Evening · 1 hr', tasks:[
-              {id:'d7t4',text:'3 Discord answers',sub:''},
-              {id:'d7t5',text:'Post 4 — Week 1 complete. Share your baseline eval numbers publicly.',sub:'"Citation accuracy: X%. Contradiction detection: Y%. Cost: $Z/brief. Deploying next week."'},
-              {id:'d7t6',text:'Commit everything',sub:''},
+            { label:'Evening', tasks:[
+              {id:'p1d10t5', text:'Post 5: "Week 2 numbers. Before vs after. Here is what actually moved the needle."', sub:''},
+              {id:'p1d10t6', text:'3 Discord answers + 1 outreach + commit', sub:''},
             ]}
           ],
-          checkpoint:['30-item golden eval set done','Baseline numbers on all 5 metrics recorded','format_brief node working','7 days commits','21 Discord answers','5 outreach messages','4 posts published']
+          checkpoint:['New eval numbers recorded','System design 3-4 written','Project pitch recorded']
         }
       ]
-    }]
-  },
-
-  // ─── PHASE 2 ───────────────────────────────────────────────────────────────
-  {
-    id:1, title:'Phase 2 · Build + Deploy', range:'Jun 7 – Jun 22 · Days 8–23', color:'#a8cff2',
-    weeks:[
-      {
-        title:'Week 2', range:'Jun 7 – Jun 13', subtitle:'Deploy + Write Deep-Dive Post',
-        days:[
-          { day:8, date:'Jun 7', title:'Deploy to Modal',
-            sections:[
-              { label:'Morning · 2.5 hrs', tasks:[
-                {id:'d8t1',text:'Deploy to Modal — scheduled job running every morning 7am IST',sub:'@app.function(schedule=modal.Cron("30 1 * * *")) — runs daily automatically.'},
-                {id:'d8t2',text:'Expose FastAPI endpoint: POST /brief — takes {topic, date_range} returns brief on demand',sub:'Test the scheduled job manually first. Then test the on-demand endpoint.'},
-              ]},
-              { label:'Afternoon · 1.5 hrs', tasks:[
-                {id:'d8t3',text:'Add LangSmith tracing — wrap your LangGraph graph. Free tier.',sub:'Every run now has full trace: nodes, inputs, outputs, latency, token count. Screenshot for blog.'},
-                {id:'d8t4',text:'Set up cost monitoring — log total USD per run to SQLite',sub:'You need cost data for your blog post. "It costs $0.03 per brief" is a killer detail.'},
-              ]},
-              { label:'Evening · 1 hr', tasks:[
-                {id:'d8t5',text:'3 Discord answers + 1 outreach',sub:''},
-                {id:'d8t6',text:'Post 5: "SuccessTracker is live. Runs every morning. Here is today\'s actual brief output."',sub:'A live demo post gets 3-5x more engagement than a "building" post.'},
-                {id:'d8t7',text:'Commit everything',sub:''},
-              ]}
-            ],
-            checkpoint:['Modal scheduled job running','FastAPI endpoint live with URL','LangSmith tracing active','First real daily brief produced']
-          },
-          { day:9, date:'Jun 8', title:'Dashboard + 10 Real Users',
-            sections:[
-              { label:'Morning · 2 hrs', tasks:[
-                {id:'d9t1',text:'Build minimal dashboard — FastAPI + clean HTML, no framework needed',sub:'Shows: today\'s brief, last 7 days of briefs, contradiction log, cost tracker. Functional over beautiful.'},
-                {id:'d9t2',text:'Share URL with 10 real people — classmates, Discord members, WhatsApp',sub:'Real users find failure modes your tests never found. Even 3 real users is valuable.'},
-              ]},
-              { label:'Afternoon · 2 hrs', tasks:[
-                {id:'d9t3',text:'Start deep-dive blog post — write Section 1: The Problem today',sub:'Why do researchers miss important papers? Why miss contradictions? Real examples. Be specific. 2 paragraphs.'},
-              ]},
-              { label:'Evening · 1 hr', tasks:[
-                {id:'d9t4',text:'3 Discord answers + 1 outreach',sub:''},
-                {id:'d9t5',text:'Fix top bug from user feedback — same day. Shows responsiveness.',sub:''},
-                {id:'d9t6',text:'Commit everything',sub:''},
-              ]}
-            ],
-            checkpoint:['Dashboard live with URL','10 real users collected feedback','Blog Section 1 written','Top user bug fixed same day']
-          },
-          { day:10, date:'Jun 9', title:'First OSS PR + Blog 2-3',
-            sections:[
-              { label:'Morning · 2 hrs', tasks:[
-                {id:'d10t1',text:'Submit first OSS PR to LangGraph — the issue you identified on Day 4',sub:'Small is fine. Doc fix, type hint, error message improvement. Write a clean PR description.'},
-              ]},
-              { label:'Afternoon · 2 hrs', tasks:[
-                {id:'d10t2',text:'Blog Section 2: Architecture decisions — why LangGraph over AutoGen/CrewAI/raw API',sub:'Wrong: "LangGraph is better." Right: specific tradeoffs. "LangGraph gave me X because Y. AutoGen would have made Z impossible."'},
-                {id:'d10t3',text:'Blog Section 3: The memory problem — ChromaDB schema + MemGPT reference',sub:'Show your ChromaDB schema. Explain how you avoid context window blowout. Reference MemGPT.'},
-              ]},
-              { label:'Evening · 1 hr', tasks:[
-                {id:'d10t4',text:'3 Discord answers + 1 outreach to a paper author',sub:'Subject: "Built an agent using your work on X — found an interesting edge case. Here is the link."'},
-                {id:'d10t5',text:'Commit everything',sub:''},
-              ]}
-            ],
-            checkpoint:['First OSS PR submitted','Blog Sections 2-3 written','Paper author outreach sent']
-          },
-          { day:11, date:'Jun 10', title:'Improve from User Feedback',
-            sections:[
-              { label:'Morning · 2 hrs', tasks:[
-                {id:'d11t1',text:'Analyse real user logs — what queries failed, what was slow, what confused people',sub:'Real usage data is gold. Categorise the failures. Fix the top 2.'},
-                {id:'d11t2',text:'Re-run evals after fixes — record new numbers vs baseline',sub:'"Citation accuracy went from 67% to 84%." This is the money quote for your blog and interviews.'},
-              ]},
-              { label:'Afternoon · 2 hrs', tasks:[
-                {id:'d11t3',text:'Blog Section 4: What broke — 3 specific failure modes with root causes',sub:'The failures section is the most important. Engineers trust people who talk honestly about what broke.'},
-                {id:'d11t4',text:'Blog Section 5: Eval results — before/after table with actual numbers + LangSmith screenshot',sub:'Real numbers: "baseline 67%, final 84%, cost $0.003/query". Tables get shared.'},
-              ]},
-              { label:'Evening · 1 hr', tasks:[
-                {id:'d11t5',text:'3 Discord answers + 1 outreach',sub:''},
-                {id:'d11t6',text:'Post 6: "Real users found 5 things I missed. Here is what I fixed."',sub:'Failure posts get more engagement than success posts. Engineers trust people who fix things.'},
-                {id:'d11t7',text:'Commit everything',sub:''},
-              ]}
-            ],
-            checkpoint:['User feedback analysed','Top 2 bugs fixed','New eval numbers recorded','Blog Sections 4-5 written']
-          },
-          { day:12, date:'Jun 11', title:'Blog Sections 6-7 + Polish',
-            sections:[
-              { label:'Morning · 2 hrs', tasks:[
-                {id:'d12t1',text:'Blog Section 6: Cost analysis — breakdown per run, how you brought it down',sub:'arXiv API (free), Claude tokens (X cents), ChromaDB (free), Modal compute (Y cents). Total: $Z/brief.'},
-                {id:'d12t2',text:'Blog Section 7: What I would build next — 2 honest extensions',sub:'Frame as "what a team could build on top." Signals commercial thinking.'},
-              ]},
-              { label:'Afternoon · 1.5 hrs', tasks:[
-                {id:'d12t3',text:'Edit full post. Cut every sentence that does not add value. Add diagrams.',sub:'LangGraph state machine diagram, eval results table, LangSmith trace screenshot, ChromaDB schema.'},
-                {id:'d12t4',text:'Read Voyager paper — for inspiration on what autonomous agents can actually do',sub:'Note 3 things you would borrow for SuccessTracker v2. Becomes future blog content.'},
-              ]},
-              { label:'Evening · 1 hr', tasks:[
-                {id:'d12t5',text:'3 Discord answers + 1 coffee chat outreach',sub:'DM an engineer whose work you studied. "I read your post on X. Built something similar [link]. Would love 20 min."'},
-                {id:'d12t6',text:'Commit everything',sub:''},
-              ]}
-            ],
-            checkpoint:['All 7 blog sections written','Diagrams added','Voyager paper notes done','Coffee chat requested']
-          },
-          { day:13, date:'Jun 12', title:'Publish Blog Post',
-            sections:[
-              { label:'Morning · 2 hrs', tasks:[
-                {id:'d13t1',text:'Final edit — read the full post out loud. Kill every filler sentence.',sub:'Target 2,500 words. Every sentence must earn its place.'},
-                {id:'d13t2',text:'Publish on Substack — set up free account today if not already',sub:'Your domain: AI agent engineering. This is your home base.'},
-              ]},
-              { label:'Afternoon · 1.5 hrs', tasks:[
-                {id:'d13t3',text:'Distribute: X thread (8 tweets), LinkedIn article, HackerNews Show HN, LangChain Discord show-and-tell',sub:'HN title: "Show HN: SuccessTracker – autonomous agent that detects breakthroughs and contradictions in arXiv papers"'},
-                {id:'d13t4',text:'Tag @LangChainAI and @AnthropicAI in your X post',sub:'They regularly retweet good technical content. This is your fastest path to 10x reach.'},
-                {id:'d13t5',text:'Email the blog post to 3 engineers/researchers you cited in it',sub:'"I cited your work in my writeup — thought you might find it interesting." 40% reply rate.'},
-              ]},
-              { label:'Evening · 1 hr', tasks:[
-                {id:'d13t6',text:'Respond to every comment and reply on every platform within first 3 hours',sub:'Engagement in first 3 hours determines reach. Do not miss this window.'},
-                {id:'d13t7',text:'Commit everything',sub:''},
-              ]}
-            ],
-            checkpoint:['Deep-dive blog post published','Distributed across 5 platforms','Cited authors emailed','Responding to all engagement']
-          },
-          { day:14, date:'Jun 13', title:'Benchmark Design + Telegram Bot',
-            sections:[
-              { label:'Morning · 2 hrs', tasks:[
-                {id:'d14t1',text:'Design benchmark study — 20 tasks × 5 frameworks',sub:'LangGraph, AutoGen, CrewAI, raw Claude API, OpenAI Assistants. 4 categories: research synthesis, extraction, planning, error recovery.'},
-                {id:'d14t2',text:'Start running framework 1 (LangGraph — your home turf)',sub:'Same test set, same prompts, same hardware for all frameworks. Methodology must be clean.'},
-              ]},
-              { label:'Afternoon · 1.5 hrs', tasks:[
-                {id:'d14t3',text:'Build Telegram bot integration — users DM topic, get brief back in 2 min',sub:'3 hours of work. Makes your demo dramatically more impressive and shows product thinking.'},
-              ]},
-              { label:'Evening · 1 hr', tasks:[
-                {id:'d14t4',text:'3 Discord answers + 1 outreach (follow up on anyone who hasn\'t replied in 5+ days)',sub:'One more message then move on.'},
-                {id:'d14t5',text:'Post 7: "Week 2 complete. Blog published. Starting the 5-framework benchmark. Results in 10 days."',sub:''},
-                {id:'d14t6',text:'Commit everything',sub:''},
-              ]}
-            ],
-            checkpoint:['Benchmark study designed','Framework 1 running','Telegram bot added','Week 2 milestone post published']
-          }
-        ]
-      },
-      {
-        title:'Week 3', range:'Jun 14 – Jun 22', subtitle:'Benchmark + OSS + Community',
-        days:[
-          { day:15, date:'Jun 14', title:'Run Frameworks 2-3',
-            sections:[
-              { label:'Morning · 2.5 hrs', tasks:[
-                {id:'d15t1',text:'Run frameworks 2-3: AutoGen and CrewAI on all 20 tasks',sub:'Record for each: task completion rate, tool calls/task, cost/task, time/task, failure mode categories.'},
-                {id:'d15t2',text:'Read AutoGen paper fully — you are benchmarking it, you should understand its design philosophy',sub:'Note: where does conversational multi-agent help? Where does it hurt?'},
-              ]},
-              { label:'Afternoon · 2 hrs', tasks:[
-                {id:'d15t3',text:'Build your CRM spreadsheet for 15 target companies',sub:'Columns: company, contact name, contact URL, role, connection type (cold/warm/alumni), status, next action.'},
-              ]},
-              { label:'Evening · 1 hr', tasks:[
-                {id:'d15t4',text:'3 Discord answers + 1 outreach',sub:''},
-                {id:'d15t5',text:'Commit everything',sub:''},
-              ]}
-            ],
-            checkpoint:['AutoGen and CrewAI benchmarked','Target company CRM started with 15 companies']
-          },
-          { day:16, date:'Jun 15', title:'Run Frameworks 4-5 + Write Benchmark',
-            sections:[
-              { label:'Morning · 2.5 hrs', tasks:[
-                {id:'d16t1',text:'Run frameworks 4-5: raw Claude API with tool use + OpenAI Assistants API',sub:'This comparison is the most interesting. Managed API vs framework vs raw implementation.'},
-                {id:'d16t2',text:'Compile all numbers into a clean table — all 5 frameworks × 4 categories × 4 metrics',sub:''},
-              ]},
-              { label:'Afternoon · 1.5 hrs', tasks:[
-                {id:'d16t3',text:'Write benchmark post — lead with the most surprising finding in your headline',sub:'Most surprising will probably be raw Claude API outperforming frameworks on simple tasks. Lead with that.'},
-              ]},
-              { label:'Evening · 1 hr', tasks:[
-                {id:'d16t4',text:'3 Discord answers + 1 outreach',sub:''},
-                {id:'d16t5',text:'Commit everything',sub:''},
-              ]}
-            ],
-            checkpoint:['All 5 frameworks benchmarked','Clean results table done','Benchmark post draft written']
-          },
-          { day:17, date:'Jun 16', title:'Publish Benchmark + First Applications',
-            sections:[
-              { label:'Morning · 1.5 hrs', tasks:[
-                {id:'d17t1',text:'Publish benchmark post — same distribution as blog post: Substack, X thread, LinkedIn, HN, Discord',sub:'HN title: "I tested 5 LLM agent frameworks on 20 standardized tasks - results with full methodology"'},
-                {id:'d17t2',text:'Tag framework maintainers in X post — they often retweet comparison posts even when not coming first',sub:''},
-              ]},
-              { label:'Afternoon · 2 hrs', tasks:[
-                {id:'d17t3',text:'Send first 5 warm job applications — Elicit, Hebbia, Ema, Sarvam AI, one of your choice',sub:'Each: 3-sentence email to a specific person + live URL + blog post + benchmark + one-line positioning.'},
-                {id:'d17t4',text:'Find each contact person: engineering manager or senior agent engineer on LinkedIn or X',sub:'Never apply on the portal. Find the human first.'},
-              ]},
-              { label:'Evening · 1 hr', tasks:[
-                {id:'d17t5',text:'3 Discord answers',sub:''},
-                {id:'d17t6',text:'Respond to all benchmark post engagement',sub:''},
-                {id:'d17t7',text:'Commit everything',sub:''},
-              ]}
-            ],
-            checkpoint:['Benchmark published + distributed','First 5 warm applications sent','Framework maintainers tagged']
-          },
-          { day:18, date:'Jun 17', title:'Second OSS PR + System Design Prep',
-            sections:[
-              { label:'Morning · 2 hrs', tasks:[
-                {id:'d18t1',text:'Submit second OSS PR — more substantial than the first',sub:'Add an arXiv tool to LangGraph tools collection. You built it for SuccessTracker — contribute it back.'},
-                {id:'d18t2',text:'Write comprehensive tests for your OSS contribution',sub:'Tests are what get PR approved fast. No tests = slow review.'},
-              ]},
-              { label:'Afternoon · 2 hrs', tasks:[
-                {id:'d18t3',text:'System design prep begins — Problem 1: "Design SuccessTracker at scale for 10,000 users with custom domains"',sub:'Write the full answer: component diagram, data flow, queuing, memory isolation per user, cost model.'},
-                {id:'d18t4',text:'Problem 2: "Design an agent that browses the web and completes multi-step tasks. State machine, failure handling."',sub:'Write full answer. 45 min max. Then check against what you know.'},
-              ]},
-              { label:'Evening · 1 hr', tasks:[
-                {id:'d18t5',text:'3 Discord answers + 1 outreach',sub:''},
-                {id:'d18t6',text:'Commit everything',sub:''},
-              ]}
-            ],
-            checkpoint:['Second OSS PR submitted with tests','System design problems 1-2 written']
-          },
-          { day:19, date:'Jun 18', title:'Freelance Profiles + System Design 3-4',
-            sections:[
-              { label:'Morning · 2 hrs', tasks:[
-                {id:'d19t1',text:'Create Contra profile at contra.com — set rate at $25/hr minimum',sub:'Fill everything. Link to live project and blog post. This is your freelance identity.'},
-                {id:'d19t2',text:'Create Arc.dev profile — same content. These two platforms get USD contracts.',sub:''},
-                {id:'d19t3',text:'Apply to 3 freelance projects on Contra in AI/agents category',sub:'Even a Rs 15K project creates a "client work" line on your CV worth 3 tutorial projects.'},
-              ]},
-              { label:'Afternoon · 2 hrs', tasks:[
-                {id:'d19t4',text:'System design Problem 3: "How do you evaluate an autonomous agent when there is no single correct answer?"',sub:'Reference your actual eval methodology from SuccessTracker. This is your killer answer — you have done it for real.'},
-                {id:'d19t5',text:'System design Problem 4: "Multi-agent system where planner delegates to specialists."',sub:'Communication, conflict resolution, failure handling between agents.'},
-              ]},
-              { label:'Evening · 1 hr', tasks:[
-                {id:'d19t6',text:'5 more warm applications — Indian product companies: Krutrim, Postman AI, Razorpay ML, PhonePe AI, CRED',sub:''},
-                {id:'d19t7',text:'3 Discord answers + 1 commit',sub:''},
-              ]}
-            ],
-            checkpoint:['Freelance profiles live','3 freelance applications sent','10 total job applications','System design 3-4 written']
-          },
-          { day:20, date:'Jun 19', title:'Cost Optimise + System Design 5-6',
-            sections:[
-              { label:'Morning · 2 hrs', tasks:[
-                {id:'d20t1',text:'Optimise SuccessTracker cost — bring cost per brief under $0.03 if not already',sub:'Techniques: cache arXiv results 6 hrs, use claude-haiku for filter node (cheaper, fast enough), batch ChromaDB queries.'},
-                {id:'d20t2',text:'Re-run evals after optimisation. Record final numbers.',sub:'These are your FINAL NUMBERS. Baseline vs final is your story in every interview.'},
-              ]},
-              { label:'Afternoon · 2 hrs', tasks:[
-                {id:'d20t3',text:'System design Problem 5: "Serving agent API at 1,000 concurrent long-running loops"',sub:'Architecture: async job queue, state store, worker pool, timeout handling, user notification.'},
-                {id:'d20t4',text:'System design Problem 6: "Prevent agent from taking irreversible harmful actions. Design the safety layer."',sub:'Whitelist of allowed actions, confirmation step, rollback mechanism, audit log.'},
-              ]},
-              { label:'Evening · 1 hr', tasks:[
-                {id:'d20t5',text:'Practice project pitch out loud — record yourself on phone. Watch it back. Cut filler words.',sub:'Should be exactly 8 minutes: problem, architecture, what broke, numbers, what is next.'},
-                {id:'d20t6',text:'3 Discord answers + 1 outreach + 1 commit',sub:''},
-              ]}
-            ],
-            checkpoint:['Cost optimised to under $0.03/brief','Final eval numbers recorded','Project pitch rehearsed and recorded','System design 5-6 written']
-          },
-          { day:21, date:'Jun 20', title:'University Talk + System Design 7-8',
-            sections:[
-              { label:'Morning · 2 hrs', tasks:[
-                {id:'d21t1',text:'System design Problem 7: "Memory system for 6-month-long agent sessions."',sub:'Vector memory for embeddings, structured DB for metadata, what gets evicted and when.'},
-                {id:'d21t2',text:'System design Problem 8: "Debug agent that fails silently — plausible-looking but wrong outputs."',sub:'Structured logging, deterministic replay, golden set regression tests, LLM-as-judge for output quality.'},
-              ]},
-              { label:'Afternoon · 2 hrs', tasks:[
-                {id:'d21t3',text:'Schedule or deliver university AI club talk — on SuccessTracker and agent architecture',sub:'Request recording. Upload to YouTube. Professors attend these. Doors open.'},
-                {id:'d21t4',text:'Prepare 15 slides: problem, live demo, architecture, what broke, eval results, lessons, what is next',sub:''},
-              ]},
-              { label:'Evening · 1 hr', tasks:[
-                {id:'d21t5',text:'3 Discord answers + 1 outreach',sub:''},
-                {id:'d21t6',text:'Post 8: "3 weeks in. Here are the numbers, what I shipped, and what I wish I had known."',sub:'Milestone posts generate the most inbound from recruiters and engineers.'},
-                {id:'d21t7',text:'Commit everything',sub:''},
-              ]}
-            ],
-            checkpoint:['System design 7-8 written','University talk scheduled or delivered','Milestone post published']
-          },
-          { day:22, date:'Jun 21', title:'System Design 9-10 + Mock Interview',
-            sections:[
-              { label:'Morning · 2 hrs', tasks:[
-                {id:'d22t1',text:'System design Problem 9: "Eval pipeline for an agent that books flights. What are your metrics?"',sub:'Task completion rate, partial credit scoring, cost/task, time/task, safety check coverage.'},
-                {id:'d22t2',text:'System design Problem 10: "Agent costs $2/run. Bring to $0.10 without sacrificing quality."',sub:'Cheaper model for routing/filter steps, caching, batching, tool call deduplication.'},
-              ]},
-              { label:'Afternoon · 2 hrs', tasks:[
-                {id:'d22t3',text:'Mock interview with a classmate or friend — 45 min total',sub:'Cover: project deep-dive 8 min, 1 system design problem, 2 domain knowledge questions, 1 coding problem.'},
-                {id:'d22t4',text:'Record the mock interview. Watch it back. Note every moment of hesitation.',sub:'Hesitation = gap. Fill that gap before the real interview.'},
-              ]},
-              { label:'Evening · 1 hr', tasks:[
-                {id:'d22t5',text:'3 Discord answers + 1 outreach',sub:''},
-                {id:'d22t6',text:'Commit everything',sub:''},
-              ]}
-            ],
-            checkpoint:['System design 9-10 written','Mock interview done and reviewed','Gaps identified and noted for study']
-          },
-          { day:23, date:'Jun 22', title:'Optimise LinkedIn + Follow-ups',
-            sections:[
-              { label:'Morning · 2 hrs', tasks:[
-                {id:'d23t1',text:'Fully optimise LinkedIn — headline = your exact niche, featured section = live project + blog + benchmark',sub:'Headline: "AI Agent Engineer · Built SuccessTracker · LangGraph · Anthropic API · Open to WFH roles"'},
-                {id:'d23t2',text:'Update all experience sections with specific technical accomplishments not just job titles',sub:'Every bullet: action + tool + outcome. "Built X using Y resulting in Z."'},
-              ]},
-              { label:'Afternoon · 2 hrs', tasks:[
-                {id:'d23t3',text:'Follow up on all 10 applications older than 5 days with no response',sub:'"Following up on my application. SuccessTracker has [new metric since I applied]. Still very interested."'},
-                {id:'d23t4',text:'System design Problems 11-12: "Agent that learns from corrections without fine-tuning" + "Async multi-agent collaboration"',sub:''},
-              ]},
-              { label:'Evening · 1 hr', tasks:[
-                {id:'d23t5',text:'Mine alumni network — find 5 more alumni at target companies on LinkedIn. Message them.',sub:''},
-                {id:'d23t6',text:'3 Discord answers + 1 commit',sub:''},
-              ]}
-            ],
-            checkpoint:['LinkedIn fully optimised','All old applications followed up','System design 11-12 written','5 more alumni contacted']
-          }
-        ]
-      }
-    ]
-  },
-
-  // ─── PHASE 3 ───────────────────────────────────────────────────────────────
-  {
-    id:2, title:'Phase 3 · Community + Networking Blitz', range:'Jun 23 – Jul 6 · Days 24–37', color:'#c084fc',
-    weeks:[
-      {
-        title:'Week 4', range:'Jun 23 – Jun 29', subtitle:'Benchmark Live + Warm Applications',
-        days:[
-          { day:24, date:'Jun 23', title:'Coffee Chats + Benchmark Push',
-            sections:[
-              { label:'Day tasks', tasks:[
-                {id:'d24t1',text:'Hold 2 coffee chats with engineers at target companies this week',sub:'Ask: "What is the hardest technical problem on your team right now?" This is job search intelligence.'},
-                {id:'d24t2',text:'Create Contra and Arc.dev profiles — set rate at Rs 80K+/month',sub:'Your live project + blog + benchmark = your portfolio. Fill every field.'},
-                {id:'d24t3',text:'Send benchmark to 3 target companies directly — "thought this might be relevant to your work on X"',sub:'Sharing useful research before you apply is the warm outreach that gets remembered.'},
-                {id:'d24t4',text:'System design Problem 13: "Tool call failures in agent loop. Design the retry and fallback logic."',sub:''},
-                {id:'d24t5',text:'3 Discord answers + 1 outreach + 1 commit',sub:''},
-              ]}
-            ],
-            checkpoint:['2 coffee chats scheduled or done','Freelance profiles live','Benchmark sent to 3 companies','System design 13 written']
-          },
-          { day:25, date:'Jun 24', title:'Second Project Spec',
-            sections:[
-              { label:'Day tasks', tasks:[
-                {id:'d25t1',text:'Design second portfolio project — must target a specific company type\'s real pain',sub:'Look at job descriptions of target companies. What does their "day 1 project" look like? Build that.'},
-                {id:'d25t2',text:'For enterprise target: build an Enterprise Workflow Agent — automate a real business process using LLM + real APIs',sub:'Slack + Notion + email automation. Time-to-completion benchmarked vs manual process.'},
-                {id:'d25t3',text:'Start building the core pipeline — get it running end to end this sprint',sub:'Reuse infra from SuccessTracker. Focus on the new domain-specific logic.'},
-                {id:'d25t4',text:'System design Problem 14: "Fine-tune a model to be a better agent. Training data, labeling, evals."',sub:''},
-                {id:'d25t5',text:'3 Discord answers + 1 outreach + 1 commit',sub:''},
-              ]}
-            ],
-            checkpoint:['Second project spec written','Core pipeline started','System design 14 written']
-          },
-          { day:26, date:'Jun 25', title:'Build Project 2 + Relationship Sprint',
-            sections:[
-              { label:'Day tasks', tasks:[
-                {id:'d26t1',text:'Build project 2 core pipeline — faster than project 1 because you know the patterns now',sub:'Target: working end-to-end in 2 days. Ugly is fine. Speed matters more now.'},
-                {id:'d26t2',text:'Email 2 paper authors whose work you use — find a gap or extension in their paper first',sub:'"I implemented your approach and found X. Here is my project [link]. Curious if you have seen this."'},
-                {id:'d26t3',text:'Hold the scheduled coffee chats from Day 24 if not done yet',sub:''},
-                {id:'d26t4',text:'System design Problem 15: "Design OperatorOS — browser agent that watches user behaviour and handles repetitive tasks."',sub:'You now have all 15 system design problems done. Review your weakest 3.'},
-                {id:'d26t5',text:'3 Discord answers + 1 commit',sub:''},
-              ]}
-            ],
-            checkpoint:['Project 2 pipeline running','2 paper author emails sent','All 15 system design problems done']
-          },
-          { day:27, date:'Jun 26', title:'Publish Benchmark + First 5 Applications',
-            sections:[
-              { label:'Day tasks', tasks:[
-                {id:'d27t1',text:'Publish benchmark post — lead with the most surprising finding in headline',sub:'HN title: "I tested 5 LLM agent frameworks on 20 standardized tasks — results with full methodology"'},
-                {id:'d27t2',text:'Send first 5 warm job applications — Elicit, Hebbia, Ema, Sarvam AI + one more via referral',sub:'Each: 3-sentence email to specific person + live URL + blog + benchmark + one-line positioning.'},
-                {id:'d27t3',text:'Share benchmark on HN, X thread, LinkedIn, Reddit r/MachineLearning, all Discord servers',sub:'Tag framework maintainers. They often retweet comparison posts even when they do not come first.'},
-                {id:'d27t4',text:'3 Discord answers + 1 outreach + 1 commit',sub:''},
-              ]}
-            ],
-            checkpoint:['Benchmark published and distributed','First 5 warm applications sent','Framework maintainers tagged']
-          },
-          { day:28, date:'Jun 27', title:'Deploy Project 2 + OSS Follow-up',
-            sections:[
-              { label:'Day tasks', tasks:[
-                {id:'d28t1',text:'Deploy project 2 with evals — live URL, monitoring, README polished',sub:'You know the drill from project 1. Should take 1 day maximum.'},
-                {id:'d28t2',text:'Follow up on OSS PR — respond to review comments fast and professionally',sub:'How you handle code review is observed by maintainers. Gracious, fast, no arguments.'},
-                {id:'d28t3',text:'Apply to 5 more companies — Indian product companies this round',sub:'Sarvam, Krutrim, Postman AI, Razorpay ML, Zepto AI. Indian companies move faster in hiring.'},
-                {id:'d28t4',text:'Post 9: "Project 2 live. Here is the problem I am solving and who it is for." + link',sub:'Stating your target audience (company type) shows commercial awareness.'},
-                {id:'d28t5',text:'3 Discord answers + 1 commit',sub:''},
-              ]}
-            ],
-            checkpoint:['Project 2 live with URL','OSS PR review responded to','15 total applications sent','Post 9 published']
-          },
-          { day:29, date:'Jun 28', title:'Referral Ask + Application Acceleration',
-            sections:[
-              { label:'Day tasks', tasks:[
-                {id:'d29t1',text:'Send direct referral asks to every alumni connection who has been warm',sub:'"Would you be open to referring me for the [role] at [company]? I have built X and Y." Direct and specific.'},
-                {id:'d29t2',text:'Apply to 3 international remote contracts on Arc.dev, Toptal AI category, Braintrust',sub:'USD-denominated. Even one contract creates leverage for domestic salary negotiations.'},
-                {id:'d29t3',text:'Review system design weakest 3 from your mock interview — rewrite the answers',sub:''},
-                {id:'d29t4',text:'3 Discord answers + 1 outreach + 1 commit',sub:''},
-              ]}
-            ],
-            checkpoint:['Referral asks sent to all warm alumni','3 international contract applications sent','Weakest system design problems reviewed']
-          }
-        ]
-      },
-      {
-        title:'Week 5', range:'Jun 30 – Jul 6', subtitle:'Applications + Interviews Begin',
-        days:[
-          { day:30, date:'Jun 29', title:'First Interview Rounds',
-            sections:[
-              { label:'Day tasks', tasks:[
-                {id:'d30t1',text:'Attend every interview that has come through — even roles you are unsure about',sub:'Write down every question asked immediately after. Build your question database.'},
-                {id:'d30t2',text:'After each interview: identify what you did not know. Study it the same day.',sub:'Failing a question is only a problem if you fail the same question twice.'},
-                {id:'d30t3',text:'Send 5 more applications — total should now be 20+ in flight',sub:'Quality over volume but keep the pipeline moving.'},
-                {id:'d30t4',text:'3 Discord answers + 1 outreach + 1 commit',sub:''},
-              ]}
-            ],
-            checkpoint:['First interviews attended','Question database growing','20+ applications in flight']
-          },
-          { day:31, date:'Jun 30', title:'Lilian Weng Deep Read + Applications',
-            sections:[
-              { label:'Day tasks', tasks:[
-                {id:'d31t1',text:'Read Lilian Weng\'s agent post in full — lilianweng.github.io/posts/2023-06-23-agent',sub:'This is what senior engineers and researchers read. Understanding this puts you in the same conversation.'},
-                {id:'d31t2',text:'Write a thread summarising her taxonomy for your audience on X',sub:'This post gets engagement from researchers. New followers = new warm leads.'},
-                {id:'d31t3',text:'Follow up on all applications older than 5 days with no response',sub:'"Following up. Happy to share what I have built if it would help."'},
-                {id:'d31t4',text:'3 Discord answers + 1 outreach + 1 commit',sub:''},
-              ]}
-            ],
-            checkpoint:['Lilian Weng post fully read and noted','Thread published','All old applications followed up']
-          },
-          { day:32, date:'Jul 1', title:'Second Interview Rounds',
-            sections:[
-              { label:'Day tasks', tasks:[
-                {id:'d32t1',text:'Second interview rounds starting — for system design rounds: diagram first, talk through tradeoffs, ask clarifying questions',sub:'For project deep-dive: lead with the problem, then metrics, then what broke, then what you would do differently.'},
-                {id:'d32t2',text:'Do not stop applying even if interviews are going well',sub:'Offers fall through. Pipelines die. Keep 5 new applications per week until something is signed.'},
-                {id:'d32t3',text:'3 Discord answers + 1 outreach + 1 commit',sub:''},
-              ]}
-            ],
-            checkpoint:['Second interview rounds attended','5 new applications this week','Pipeline maintained']
-          },
-          { day:33, date:'Jul 2', title:'Freelance First Win',
-            sections:[
-              { label:'Day tasks', tasks:[
-                {id:'d33t1',text:'If you have a freelance inquiry or offer — take it, even if small',sub:'Even Rs 15K first contract is worth taking. Client work on CV is disproportionately valuable.'},
-                {id:'d33t2',text:'Read 2 recent agent papers on arXiv — search "LLM agents 2025", pick 2 most cited recent ones',sub:'Update your paper notes repo. It should have 15+ papers by now.'},
-                {id:'d33t3',text:'Post 10: "4 weeks of building agents. Here is the most counterintuitive thing I learned."',sub:'Something specific from your debugging experience. Specific observations get the most shares.'},
-                {id:'d33t4',text:'3 Discord answers + 1 outreach + 1 commit',sub:''},
-              ]}
-            ],
-            checkpoint:['Freelance contract started or inquiry received','Paper notes repo at 15+ papers','Week 5 milestone post published']
-          },
-          { day:34, date:'Jul 3', title:'Application Volume Sprint',
-            sections:[
-              { label:'Day tasks', tasks:[
-                {id:'d34t1',text:'Apply to 5 more companies — now trying international remote: Weights and Biases, Braintrust, Weights and Biases, Scale AI, Modal',sub:'These companies specifically hire agent engineers and are remote-first.'},
-                {id:'d34t2',text:'Send thank-you notes to everyone who interviewed you so far. Ask for feedback.',sub:'Thank-you notes within 24 hours have a meaningful impact on offer decisions.'},
-                {id:'d34t3',text:'Update your target company CRM — company, status, next action, interview stage',sub:''},
-                {id:'d34t4',text:'3 Discord answers + 1 outreach + 1 commit',sub:''},
-              ]}
-            ],
-            checkpoint:['25+ total applications','Thank-you notes sent','CRM updated']
-          },
-          { day:35, date:'Jul 4', title:'Post 11 + Negotiation Research',
-            sections:[
-              { label:'Day tasks', tasks:[
-                {id:'d35t1',text:'Research fair market rate — Levels.fyi, Glassdoor, LinkedIn Salary, Blind',sub:'Build your anchor: floor Rs 55K, anchor Rs 75K. Never reveal floor first.'},
-                {id:'d35t2',text:'Write your non-negotiables: WFH guaranteed in writing, Rs 55K+ monthly, start date, domain must be agents',sub:'Put these in writing for yourself. Clarity in negotiation starts with internal clarity.'},
-                {id:'d35t3',text:'Post 11: "I am actively interviewing for AI engineering roles. Here is what AI interviews actually look like."',sub:'Transparency post. Recruiters see this and reach out. Engineers who went through it engage.'},
-                {id:'d35t4',text:'3 Discord answers + 1 outreach + 1 commit',sub:''},
-              ]}
-            ],
-            checkpoint:['Anchor number set','Non-negotiables written','Interview transparency post published']
-          },
-          { day:36, date:'Jul 5', title:'Mock Interview Round 2',
-            sections:[
-              { label:'Day tasks', tasks:[
-                {id:'d36t1',text:'Second mock interview — this time with an engineer if possible, not just a classmate',sub:'Cover the gaps you found in mock 1. Harder system design this time.'},
-                {id:'d36t2',text:'Record it. Compare to mock 1. Measure improvement on specific gaps.',sub:'Progress tracking applies to interview prep too.'},
-                {id:'d36t3',text:'Apply to 5 more companies — fill in any gaps in your target list',sub:'Total target: 30+ applications by end of Phase 3.'},
-                {id:'d36t4',text:'3 Discord answers + 1 outreach + 1 commit',sub:''},
-              ]}
-            ],
-            checkpoint:['Mock interview 2 done','Gaps measured vs mock 1','30+ total applications']
-          },
-          { day:37, date:'Jul 6', title:'Phase 3 Final Check',
-            sections:[
-              { label:'Day tasks', tasks:[
-                {id:'d37t1',text:'Audit your entire signal stack: GitHub (2 repos, 2 OSS PRs), blog post, benchmark, 2 live URLs, 30+ posts',sub:'If anything is missing, spend today filling the gap. You need the full stack before offers land.'},
-                {id:'d37t2',text:'Write negotiation script — practice out loud 5 times',sub:'"I have another process at [company] at Rs X. I am prioritising you because [specific reason]. Can you match Rs Y?"'},
-                {id:'d37t3',text:'Post 12: "Phase 3 complete. 5 weeks in. Here is everything I have built and the numbers."',sub:'This is your comprehensive signal post. Link everything: projects, blog, benchmark, OSS.'},
-                {id:'d37t4',text:'3 Discord answers + 1 outreach + 1 commit',sub:''},
-              ]}
-            ],
-            checkpoint:['Full signal stack audited','Negotiation script written and rehearsed','Phase 3 summary post published']
-          }
-        ]
-      }
-    ]
-  },
-
-  // ─── PHASE 4 ───────────────────────────────────────────────────────────────
-  {
-    id:3, title:'Phase 4 · Applications + Interviews + Negotiate', range:'Jul 7 – Jul 24 · Days 38–55', color:'#f0c878',
-    weeks:[
-      {
-        title:'Week 6', range:'Jul 7 – Jul 13', subtitle:'Interview Reps + First Offers',
-        days:[
-          { day:38, date:'Jul 7', title:'Interview Reps Begin',
-            sections:[
-              { label:'Daily rhythm', tasks:[
-                {id:'d38t1',text:'Attend every interview — even roles you are unsure about. Reps are everything.',sub:'Write down every question asked immediately after. Do this while still in the building or call.'},
-                {id:'d38t2',text:'After each interview: identify what you did not know. Study it before the next one.',sub:'Failing a question is only a problem if you fail the same question twice.'},
-                {id:'d38t3',text:'System design problem of the day — 45 min, written out fully before checking anything',sub:'Today: "Design SuccessTracker at scale — 10,000 users, custom domains per user."'},
-                {id:'d38t4',text:'Send 5 more applications this week — focus on companies where you have a warm contact',sub:'Total should be 35+ in flight.'},
-                {id:'d38t5',text:'3 Discord answers + 1 outreach + 1 commit',sub:''},
-              ]}
-            ],
-            checkpoint:['All interviews attended','Question database growing','35+ applications in flight','System design daily']
-          },
-          { day:39, date:'Jul 8', title:'Deep Prep Day',
-            sections:[
-              { label:'Day tasks', tasks:[
-                {id:'d39t1',text:'Prep project deep-dive — practice explaining SuccessTracker in exactly 8 minutes out loud',sub:'Problem → architecture decisions → what broke → numbers → what you would do next. Timed.'},
-                {id:'d39t2',text:'Prep 10 domain knowledge Q&A: transformer attention, RAG vs fine-tuning tradeoffs, agent memory types, eval metrics',sub:'These come up in every AI engineering interview. Know them cold.'},
-                {id:'d39t3',text:'Write a one-page "cheat sheet" of your project numbers — latency, cost, eval scores, architecture decisions',sub:'Review this before every interview. Specific numbers impress more than vague descriptions.'},
-                {id:'d39t4',text:'3 Discord answers + 1 commit',sub:''},
-              ]}
-            ],
-            checkpoint:['8-minute project pitch rehearsed','10 domain Q&As prepared','Numbers cheat sheet written']
-          },
-          { day:40, date:'Jul 9', title:'Accelerate Pipeline',
-            sections:[
-              { label:'Day tasks', tasks:[
-                {id:'d40t1',text:'Apply to 5 more companies — try vertical AI companies: Hippocratic AI, Sana Labs, Cresta',sub:'Vertical AI companies are often easier to get into than big labs and pay well.'},
-                {id:'d40t2',text:'DM everyone who engaged with your benchmark or blog post and has not responded to outreach',sub:'Someone who read your work is a warm lead. Follow up once more.'},
-                {id:'d40t3',text:'Check Contra and Arc.dev for new freelance postings — apply to 3 more',sub:'Freelance + job applications in parallel. One creates leverage for the other.'},
-                {id:'d40t4',text:'3 Discord answers + 1 outreach + 1 commit',sub:''},
-              ]}
-            ],
-            checkpoint:['40+ total applications','Warm leads followed up','3 more freelance applications']
-          },
-          { day:41, date:'Jul 10', title:'Second Rounds',
-            sections:[
-              { label:'Day tasks', tasks:[
-                {id:'d41t1',text:'Second and third interview rounds — attend all, prepare the night before for each',sub:'Re-read the company\'s engineering blog before every interview. Show you know their specific problems.'},
-                {id:'d41t2',text:'Send follow-up thank-you notes within 24 hours of every interview',sub:'Include one specific thing you learned or found interesting from the conversation.'},
-                {id:'d41t3',text:'If any offer arrives: "Thank you, I am very excited. I would like 5 business days to review carefully before formally accepting."',sub:'Use those 5 days to accelerate every other pipeline.'},
-                {id:'d41t4',text:'3 Discord answers + 1 commit',sub:''},
-              ]}
-            ],
-            checkpoint:['All second rounds attended','Thank-you notes sent within 24 hrs','First offers handled correctly']
-          },
-          { day:42, date:'Jul 11', title:'Competing Offers Pipeline',
-            sections:[
-              { label:'Day tasks', tasks:[
-                {id:'d42t1',text:'Apply to 3 companies in the same 2-week window — stagger for simultaneous offers',sub:'Offers that arrive 3 weeks apart give you no leverage. Batch applications so they land together.'},
-                {id:'d42t2',text:'Email every pending company: "I have an offer and a decision deadline of [date]. Are you able to expedite?"',sub:'This is the most powerful move in the job search. Use it.'},
-                {id:'d42t3',text:'Read every offer letter line by line: moonlighting clause, IP clause, WFH policy, notice period',sub:'Moonlighting clause can block freelance income. IP clause can affect OSS work. Every line.'},
-                {id:'d42t4',text:'3 Discord answers + 1 outreach + 1 commit',sub:''},
-              ]}
-            ],
-            checkpoint:['Competing offers pipeline created','Pending companies expedited','Offer letter reviewed carefully']
-          },
-          { day:43, date:'Jul 12', title:'Negotiation Practice',
-            sections:[
-              { label:'Day tasks', tasks:[
-                {id:'d43t1',text:'Practice negotiation script 10 times out loud — not in your head, out loud',sub:'"I have another offer at Rs X. I am prioritising your company because [specific reason]. Can you come up to Rs Y?"'},
-                {id:'d43t2',text:'Practice the number deflection: "I would like to understand the full comp structure first — what is the budgeted range?"',sub:'Never give a number first. Practice saying this until it feels natural.'},
-                {id:'d43t3',text:'Identify non-salary terms to negotiate: WFH in writing, learning budget, GPU compute access, equity cliff',sub:'Rs 50K/month WFH + Rs 1L learning budget is better than Rs 55K/month in office.'},
-                {id:'d43t4',text:'3 Discord answers + 1 commit',sub:''},
-              ]}
-            ],
-            checkpoint:['Negotiation script practiced 10x','Number deflection natural','Non-salary terms list written']
-          },
-          { day:44, date:'Jul 13', title:'Offer Management',
-            sections:[
-              { label:'Day tasks', tasks:[
-                {id:'d44t1',text:'Research salary ranges — Levels.fyi, Glassdoor, LinkedIn Salary, Blind for your exact role type',sub:'Build your anchor: floor Rs 55K, anchor Rs 75K. The anchor shapes the entire negotiation.'},
-                {id:'d44t2',text:'For any offer in hand: use expedite emails to create competing offers this week',sub:'"I have an offer and a decision deadline of [date in 5 days]." Send to every company in late-stage process.'},
-                {id:'d44t3',text:'Negotiate non-salary simultaneously — do not save this for later',sub:'Ask for WFH guarantee in writing, learning budget, compute access in the same negotiation conversation.'},
-                {id:'d44t4',text:'3 Discord answers + 1 outreach + 1 commit',sub:''},
-              ]}
-            ],
-            checkpoint:['Anchor number set','Expedite emails sent to all pending','Non-salary terms in negotiation']
-          }
-        ]
-      },
-      {
-        title:'Week 7', range:'Jul 14 – Jul 20', subtitle:'Close + Negotiate',
-        days:[
-          { day:45, date:'Jul 14', title:'Final Interview Rounds',
-            sections:[
-              { label:'Day tasks', tasks:[
-                {id:'d45t1',text:'Final interview rounds — treat each one like the most important interview of your life',sub:'You are this close. Do not let up. Prepare the night before every single one.'},
-                {id:'d45t2',text:'Continue applying — 5 more applications even if you have offers',sub:'Offers fall through. Never stop until something is signed. This is the discipline that separates closers.'},
-                {id:'d45t3',text:'3 Discord answers + 1 outreach + 1 commit',sub:''},
-              ]}
-            ],
-            checkpoint:['All final rounds attended','5 new applications this week']
-          },
-          { day:46, date:'Jul 15', title:'Negotiate First Offer',
-            sections:[
-              { label:'Day tasks', tasks:[
-                {id:'d46t1',text:'Negotiate first serious offer — anchor at Rs 75K, floor Rs 55K',sub:'Never accept verbal. Always say: "Sounds great. I will formally accept once I have the written offer letter."'},
-                {id:'d46t2',text:'Use competing offer/freelance contract as leverage if you have one',sub:'"I have a contract at Rs X/month. I would need to at least match that to make this work."'},
-                {id:'d46t3',text:'Negotiate WFH in writing in the same conversation as salary',sub:'Do not leave WFH to a separate conversation. It must be in the written offer letter.'},
-                {id:'d46t4',text:'3 Discord answers + 1 commit',sub:''},
-              ]}
-            ],
-            checkpoint:['First offer negotiation started','Anchor used correctly','WFH in negotiation']
-          },
-          { day:47, date:'Jul 16', title:'Counter Offers',
-            sections:[
-              { label:'Day tasks', tasks:[
-                {id:'d47t1',text:'If they push back on salary: "I understand. I have another process at [type of company] further along at Rs X. Can you come up to Rs Y?"',sub:'Vague competing offer is still leverage. You do not have to name the company.'},
-                {id:'d47t2',text:'If they cannot move on base: negotiate signing bonus, earlier review date, or equity cliff reduction',sub:'There is always something they can move on. Find it.'},
-                {id:'d47t3',text:'Do not make a decision under pressure. Take your 5 business days even if you want to accept.',sub:''},
-                {id:'d47t4',text:'3 Discord answers + 1 commit',sub:''},
-              ]}
-            ],
-            checkpoint:['Counter offer made','At least one additional concession negotiated']
-          },
-          { day:48, date:'Jul 17', title:'Written Offer Review',
-            sections:[
-              { label:'Day tasks', tasks:[
-                {id:'d48t1',text:'Read the written offer letter line by line — do not skim',sub:'WFH policy in writing. Moonlighting clause (blocks freelance?). IP clause (affects OSS?). Notice period. Every line.'},
-                {id:'d48t2',text:'If anything is missing or wrong: respond in writing specifying what needs to change',sub:'"Thank you for the offer. I noticed X clause — I would need Y change before I can formally accept."'},
-                {id:'d48t3',text:'Keep all other applications active — do not cancel anything until signed',sub:'Even if this is your dream offer. Offers get rescinded. Companies go bankrupt. Never stop.'},
-                {id:'d48t4',text:'3 Discord answers + 1 commit',sub:''},
-              ]}
-            ],
-            checkpoint:['Written offer reviewed line by line','Any issues flagged in writing','All other applications still active']
-          },
-          { day:49, date:'Jul 18', title:'Final Negotiations',
-            sections:[
-              { label:'Day tasks', tasks:[
-                {id:'d49t1',text:'Use any additional competing offers that have landed to renegotiate',sub:'"I received an offer from [company] at Rs X. I prefer your mission — can you match?"'},
-                {id:'d49t2',text:'If you have your target offer (Rs 55K+ WFH, agents role): prepare to accept',sub:'Do a final check: Is WFH in writing? Is salary right? Are the clauses clean? Then accept.'},
-                {id:'d49t3',text:'If you do not have your target yet: increase application volume to 10/week this week',sub:''},
-                {id:'d49t4',text:'3 Discord answers + 1 commit',sub:''},
-              ]}
-            ],
-            checkpoint:['All competing offers used as leverage','Final offer terms confirmed or volume increased']
-          },
-          { day:50, date:'Jul 19', title:'Decision Preparation',
-            sections:[
-              { label:'Day tasks', tasks:[
-                {id:'d50t1',text:'List all open offers and their full terms — salary, WFH, role, company, equity, start date',sub:'Compare them on a single spreadsheet. The best offer is not always the highest salary.'},
-                {id:'d50t2',text:'Inform companies you are declining — be gracious and specific. You will cross paths again.',sub:'"I have decided to go in a different direction but really appreciated the time and conversation."'},
-                {id:'d50t3',text:'3 Discord answers + 1 commit',sub:''},
-              ]}
-            ],
-            checkpoint:['All offers compared on single sheet','Declining companies notified graciously']
-          },
-          { day:51, date:'Jul 20', title:'Sign or Accelerate',
-            sections:[
-              { label:'Day tasks', tasks:[
-                {id:'d51t1',text:'If target offer is ready: sign it today. Do not overthink.',sub:'You have done the due diligence. The WFH is in writing. The salary is right. Sign.'},
-                {id:'d51t2',text:'If not yet at target: emergency outreach sprint — reach out to every warm contact you have not reached yet',sub:'10 outreach messages today. Tell them you are making a decision this week and are still open.'},
-                {id:'d51t3',text:'3 Discord answers + 1 commit',sub:''},
-              ]}
-            ],
-            checkpoint:['Offer signed OR emergency outreach sprint launched']
-          }
-        ]
-      },
-      {
-        title:'Week 8', range:'Jul 21 – Jul 24', subtitle:'Final Push',
-        days:[
-          { day:52, date:'Jul 21', title:'Buffer + Final Push',
-            sections:[
-              { label:'Day tasks', tasks:[
-                {id:'d52t1',text:'If signed: congratulations. Use today to write the milestone post and prepare for Day 1.',sub:''},
-                {id:'d52t2',text:'If not signed: 10 new applications today. Call every warm contact. Create urgency.',sub:'You have 10 days. That is enough. Do not panic — execute.'},
-                {id:'d52t3',text:'3 Discord answers + 1 commit',sub:''},
-              ]}
-            ],
-            checkpoint:['Signed OR 10 new applications today']
-          },
-          { day:53, date:'Jul 22', title:'Final Round Interviews',
-            sections:[
-              { label:'Day tasks', tasks:[
-                {id:'d53t1',text:'Any remaining final rounds — treat every one as if it is your only option',sub:''},
-                {id:'d53t2',text:'Expedite every pipeline: "I am making a final decision this week. Can you expedite your process?"',sub:'Companies want candidates who have offers. Urgency creates urgency.'},
-                {id:'d53t3',text:'3 Discord answers + 1 commit',sub:''},
-              ]}
-            ],
-            checkpoint:['All final rounds attended','All pipelines expedited']
-          },
-          { day:54, date:'Jul 23', title:'Penultimate Push',
-            sections:[
-              { label:'Day tasks', tasks:[
-                {id:'d54t1',text:'Negotiate any outstanding offers — use final deadline as leverage: "I need to make a decision by Jul 31"',sub:''},
-                {id:'d54t2',text:'If multiple offers: choose the one that gives you the best agents work + WFH + salary combination',sub:'Best offer for your career at this stage is the one that grows you fastest, not just pays most.'},
-                {id:'d54t3',text:'3 Discord answers + 1 commit',sub:''},
-              ]}
-            ],
-            checkpoint:['Final negotiations happening','Decision framework clear']
-          },
-          { day:55, date:'Jul 24', title:'Final Negotiation Deadline',
-            sections:[
-              { label:'Day tasks', tasks:[
-                {id:'d55t1',text:'Final negotiation push — you have 7 days left. Time creates leverage.',sub:'"I need to make a decision by July 31. Can we finalise terms today?"'},
-                {id:'d55t2',text:'Accept the best offer that meets all 3 criteria: Rs 55K+ salary, WFH in writing, agents engineering work',sub:'Do not let perfect be the enemy of great. A great offer today beats a perfect offer in August.'},
-                {id:'d55t3',text:'3 Discord answers + 1 commit',sub:''},
-              ]}
-            ],
-            checkpoint:['Final terms accepted OR final push made','7-day deadline communicated to all companies']
-          }
-        ]
-      }
-    ]
-  },
-
-  // ─── PHASE 5 ───────────────────────────────────────────────────────────────
-  {
-    id:4, title:'Phase 5 · Close', range:'Jul 25 – Jul 31 · Days 56–61', color:'#ff7b7b',
-    weeks:[{
-      title:'Final Week', range:'Jul 25 – Jul 31', subtitle:'Sign the Offer',
+    },
+    {
+      title:'Week 3', range:'Jun 22–28', subtitle:'Deploy + write the deep-dive post',
       days:[
-        { day:56, date:'Jul 25', title:'Final Negotiation',
+        { day:11, date:'Jun 22', title:'Watch deployment video + deploy to Modal',
           sections:[
-            { label:'Closing tasks', tasks:[
-              {id:'d56t1',text:'Use competing offers as leverage on every open negotiation',sub:'"I have an offer at Rs X. I am prioritising you. Can you match?"'},
-              {id:'d56t2',text:'Never accept verbally — always wait for written offer letter with WFH clause included',sub:'WFH must be in the written contract. Not verbal. Written. Non-negotiable.'},
-              {id:'d56t3',text:'Read every line of the offer letter before signing',sub:'Moonlighting clause, IP clause, notice period, WFH policy. Every single line.'},
-              {id:'d56t4',text:'Continue attending any remaining interviews — do not stop until something is signed',sub:'Offers fall through. Pipelines die. Never stop.'},
+            { label:'Morning · Watch', tasks:[
+              {id:'p1d11t1', text:'Watch: "Deploy Python app to Modal" by Modal official', sub:'youtube.com/watch?v=JariyX4IdLo — 20 min. Then deploy immediately after.', video:'https://youtube.com/watch?v=JariyX4IdLo'},
+            ]},
+            { label:'Afternoon', tasks:[
+              {id:'p1d11t2', text:'Deploy ArpsTracker to Modal — scheduled job 7am IST daily', sub:'@app.function(schedule=modal.Cron("30 1 * * *")) — runs automatically every morning.'},
+              {id:'p1d11t3', text:'Expose FastAPI endpoint: POST /brief — takes {topic, date_range} returns brief on demand', sub:'Get both working: scheduled + on-demand. Test scheduled job manually first.'},
+            ]},
+            { label:'Evening', tasks:[
+              {id:'p1d11t4', text:'Watch: "LangSmith tutorial" by LangChain', sub:'youtube.com/watch?v=tFXm5ijih98 — 20 min. Then add tracing immediately after.', video:'https://youtube.com/watch?v=tFXm5ijih98'},
+              {id:'p1d11t5', text:'Add LangSmith tracing — wrap your LangGraph graph. Free tier.', sub:'Every run now has full trace: nodes, inputs, outputs, latency, token count.'},
+              {id:'p1d11t6', text:'3 Discord answers + 1 outreach + commit', sub:''},
             ]}
           ],
-          checkpoint:['Competing offers in play','WFH clause confirmed in writing','Offer letter reviewed']
+          checkpoint:['Modal scheduled job running daily','FastAPI endpoint live with public URL','LangSmith tracing active']
         },
-        { day:57, date:'Jul 26', title:'Sign or Last Push',
+        { day:12, date:'Jun 23', title:'Dashboard + 10 real users',
           sections:[
-            { label:'Tasks', tasks:[
-              {id:'d57t1',text:'If target offer ready and terms confirmed — sign today',sub:'You did the work. Trust the process. Sign.'},
-              {id:'d57t2',text:'If not yet: 10 outreach messages today to every warm contact. Tell them you are deciding this week.',sub:''},
-              {id:'d57t3',text:'1 commit + 3 Discord answers',sub:'Keep the streak alive even in the final stretch.'},
+            { label:'Morning', tasks:[
+              {id:'p1d12t1', text:'Build minimal dashboard — FastAPI + clean HTML', sub:'Shows: today\'s brief, last 7 days, contradiction log, cost tracker. Functional not beautiful.'},
+              {id:'p1d12t2', text:'Share URL with 10 real people — classmates, Discord, WhatsApp', sub:'Real users find failure modes your tests never found.'},
+            ]},
+            { label:'Afternoon', tasks:[
+              {id:'p1d12t3', text:'Fix top bug from user feedback — same day. Shows responsiveness.', sub:''},
+              {id:'p1d12t4', text:'Add cost monitoring — log total USD per run to SQLite', sub:'"It costs $0.03 per brief" is a killer detail in interviews and your blog post.'},
+            ]},
+            { label:'Evening', tasks:[
+              {id:'p1d12t5', text:'Post 6: "ArpsTracker is live. Here is the URL and today\'s actual brief output."', sub:'Live demo posts get 3-5x more engagement than building posts.'},
+              {id:'p1d12t6', text:'System design Problem 5: "Serving agent API at 1,000 concurrent long-running loops"', sub:'Async job queue, state store, worker pool, timeout handling.'},
+              {id:'p1d12t7', text:'3 Discord answers + 1 outreach + commit', sub:''},
             ]}
           ],
-          checkpoint:['Offer signed OR last push sprint launched']
+          checkpoint:['Dashboard live with URL','10 real users','Cost monitoring active','System design 5 written']
         },
-        { day:58, date:'Jul 27', title:'Buffer Day',
+        { day:13, date:'Jun 24', title:'Write deep-dive blog post',
           sections:[
-            { label:'Tasks', tasks:[
-              {id:'d58t1',text:'Attend any remaining interviews with maximum energy',sub:'This close to the finish line you cannot afford to be anything less than excellent.'},
-              {id:'d58t2',text:'Expedite every remaining pipeline one final time',sub:''},
-              {id:'d58t3',text:'1 commit + 3 Discord answers',sub:''},
+            { label:'Morning · Write', tasks:[
+              {id:'p1d13t1', text:'Section 1: The Problem — why researchers miss papers and contradictions. Real examples. Specific.', sub:'Someone reading this should think "I have this exact problem." 2 paragraphs.'},
+              {id:'p1d13t2', text:'Section 2: Architecture decisions — why LangGraph over AutoGen/CrewAI/raw API', sub:'Wrong: "LangGraph is better." Right: specific tradeoffs. "LangGraph gave me X because Y."'},
+            ]},
+            { label:'Afternoon · Write', tasks:[
+              {id:'p1d13t3', text:'Section 3: The memory problem — ChromaDB schema + MemGPT reference', sub:'Show your schema. Explain how you avoid context window blowout.'},
+              {id:'p1d13t4', text:'Section 4: What broke — 3 specific failure modes with root causes', sub:'The failures section is the most important. Honesty builds more trust than polish.'},
+            ]},
+            { label:'Evening · Write', tasks:[
+              {id:'p1d13t5', text:'Section 5: Eval results — before/after table with actual numbers + LangSmith screenshot', sub:'"Baseline 67%, final 84%, cost $0.003/query." Real numbers get shared.'},
+              {id:'p1d13t6', text:'Section 6: Cost analysis. Section 7: What I would build next.', sub:'Cost breakdown per run. 2 honest extensions framed as "what a team could build."'},
+              {id:'p1d13t7', text:'3 Discord answers + commit', sub:''},
             ]}
           ],
-          checkpoint:['All remaining interviews attended','All pipelines expedited']
+          checkpoint:['All 7 blog sections written','Before/after numbers in post','Diagrams planned']
         },
-        { day:59, date:'Jul 28', title:'Penultimate Day',
+        { day:14, date:'Jun 25', title:'Publish blog post + first OSS PR',
           sections:[
-            { label:'Tasks', tasks:[
-              {id:'d59t1',text:'Negotiate any last outstanding terms — deadline is real and companies know it',sub:'Use Jul 31 explicitly: "I have a hard decision deadline of July 31. Can we finalise today?"'},
-              {id:'d59t2',text:'Inform companies you will not be joining — do it graciously, early, specifically',sub:'The AI world is small. These people will come up again.'},
-              {id:'d59t3',text:'1 commit',sub:''},
+            { label:'Morning', tasks:[
+              {id:'p1d14t1', text:'Edit full post — read out loud. Cut every sentence that does not earn its place.', sub:'Add diagrams: LangGraph state machine, eval results table, LangSmith trace screenshot, ChromaDB schema.'},
+              {id:'p1d14t2', text:'Publish on Substack. Set up free account if not done.', sub:'Your domain: AI agent engineering. This is your home base.'},
+            ]},
+            { label:'Afternoon', tasks:[
+              {id:'p1d14t3', text:'Distribute: X thread (8 tweets), LinkedIn article, HackerNews Show HN, LangChain Discord', sub:'HN title: "Show HN: ArpsTracker – autonomous agent detecting breakthroughs and contradictions in arXiv"'},
+              {id:'p1d14t4', text:'Tag @LangChainAI and @AnthropicAI in X post. Email 3 cited authors.', sub:'They regularly retweet good technical content. Authors: "I cited your work — thought you might find it interesting."'},
+            ]},
+            { label:'Evening', tasks:[
+              {id:'p1d14t5', text:'Submit first OSS PR to LangGraph — the issue from Day 8', sub:'Clean PR description: what, why, how to test. Small is fine. Getting merged is the goal.'},
+              {id:'p1d14t6', text:'Respond to every comment on every platform within first 3 hours', sub:'Engagement in first 3 hours determines total reach.'},
+              {id:'p1d14t7', text:'3 Discord answers + commit', sub:''},
             ]}
           ],
-          checkpoint:['Final terms accepted or declined graciously']
+          checkpoint:['Blog post published and distributed','First OSS PR submitted','Cited authors emailed','Engagement happening']
         },
-        { day:60, date:'Jul 29', title:'Last Buffer',
+        { day:15, date:'Jun 26', title:'Benchmark study design',
           sections:[
-            { label:'Tasks', tasks:[
-              {id:'d60t1',text:'If signed: prepare for Day 1. Read the company engineering blog. Note open questions.',sub:'Being prepared for Day 1 is remembered for years.'},
-              {id:'d60t2',text:'If not signed: accept the best available offer that meets WFH + salary criteria',sub:'Done is better than perfect. A job you have is infinitely better than the perfect job you do not.'},
-              {id:'d60t3',text:'1 commit',sub:''},
+            { label:'Morning', tasks:[
+              {id:'p1d15t1', text:'Design benchmark: 20 tasks × 5 frameworks', sub:'LangGraph, AutoGen, CrewAI, raw Groq API, OpenAI Assistants. 4 categories: research, extraction, planning, error recovery.'},
+              {id:'p1d15t2', text:'Start running framework 1 — LangGraph on all 20 tasks', sub:'Same test set, same prompts, same hardware for all frameworks. Clean methodology only.'},
+            ]},
+            { label:'Afternoon', tasks:[
+              {id:'p1d15t3', text:'System design Problem 6: "Prevent agent from taking irreversible harmful actions"', sub:'Whitelist of allowed actions, confirmation step, rollback mechanism, audit log.'},
+              {id:'p1d15t4', text:'System design Problem 7: "Memory system for 6-month-long agent sessions"', sub:'Vector for embeddings, structured DB for metadata, eviction policy.'},
+            ]},
+            { label:'Evening', tasks:[
+              {id:'p1d15t5', text:'Create Contra profile at contra.com — set rate $25/hr minimum', sub:'Link to live project and blog post. This is your freelance identity.'},
+              {id:'p1d15t6', text:'3 Discord answers + 1 outreach + commit', sub:''},
             ]}
           ],
-          checkpoint:['Signed OR best available accepted']
+          checkpoint:['Benchmark designed','Framework 1 running','System design 6-7 done','Freelance profile live']
         },
-        { day:61, date:'Jul 31', title:'🏁 Sign the Offer',
+        { day:16, date:'Jun 27', title:'Run all 5 frameworks + write benchmark post',
           sections:[
-            { label:'Final', tasks:[
-              {id:'d61t1',text:'Sign offer: Rs 55K+/month, WFH guaranteed in writing, AI agents engineering role',sub:'61 days. From intermediate ML student to hired AI engineer. You did it.'},
-              {id:'d61t2',text:'Post the milestone publicly — "I got my first AI engineering offer in 61 days. Full breakdown."',sub:'This post helps hundreds of people who are where you were. Pay it forward.'},
-              {id:'d61t3',text:'Send genuine thank-you notes to everyone who helped — referrers, coffee chats, professors, Discord helpers',sub:'Every single person. Specific and personal. These relationships are your career.'},
+            { label:'Morning', tasks:[
+              {id:'p1d16t1', text:'Run frameworks 2-3: AutoGen and CrewAI on all 20 tasks', sub:'Record for each: task completion rate, tool calls/task, cost/task, latency, failure modes.'},
+              {id:'p1d16t2', text:'Run frameworks 4-5: raw Groq API + OpenAI Assistants', sub:'This comparison is most interesting: managed API vs framework vs raw implementation.'},
+            ]},
+            { label:'Afternoon', tasks:[
+              {id:'p1d16t3', text:'Write benchmark post — lead with the most surprising finding', sub:'Table: framework × category × metrics. Most surprising = raw API outperforms on simple tasks but fails complex ones.'},
+              {id:'p1d16t4', text:'System design Problem 8: "Debug agent that fails silently — plausible-looking but wrong outputs"', sub:'Structured logging, deterministic replay, golden set regression, LLM-as-judge for quality.'},
+            ]},
+            { label:'Evening', tasks:[
+              {id:'p1d16t5', text:'3 Discord answers + 1 outreach + commit', sub:''},
             ]}
           ],
-          checkpoint:['✅ Offer signed Rs 55K+/month','✅ WFH guaranteed in writing','✅ AI agents engineering role','✅ Milestone post published','✅ Thank-you notes sent']
+          checkpoint:['All 5 frameworks benchmarked','Benchmark post written','System design 8 done']
+        },
+        { day:17, date:'Jun 28', title:'Publish benchmark + first 5 applications',
+          sections:[
+            { label:'Morning', tasks:[
+              {id:'p1d17t1', text:'Publish benchmark post — same distribution as blog post', sub:'HN title: "I tested 5 LLM agent frameworks on 20 standardised tasks — results + full methodology"'},
+              {id:'p1d17t2', text:'Tag framework maintainers in X post', sub:'They retweet comparison posts even when they do not come first.'},
+            ]},
+            { label:'Afternoon', tasks:[
+              {id:'p1d17t3', text:'Send first 5 warm job applications — Elicit, Hebbia, Ema, Sarvam AI + one more via referral', sub:'Each: 3-sentence email to specific person + live URL + blog + benchmark + one-line positioning.'},
+              {id:'p1d17t4', text:'Find each contact person: engineering manager or senior agent engineer on LinkedIn or X', sub:'Never apply on the portal. Find the human first. Always.'},
+            ]},
+            { label:'Evening', tasks:[
+              {id:'p1d17t5', text:'System design Problem 9: "Eval pipeline for an agent that books flights. Metrics?"', sub:'Task completion rate, partial credit, cost/task, time/task, safety coverage.'},
+              {id:'p1d17t6', text:'3 Discord answers + commit', sub:''},
+            ]}
+          ],
+          checkpoint:['Benchmark published','First 5 warm applications sent','System design 9 done']
         }
       ]
-    }]
-  }
+    }
+  ]
+},
+
+// ── PHASE 2: DEPLOY + OSS + COMMUNITY ──────────────────────────────────────
+{
+  id:2, title:'Phase 2 · Deploy + Community', range:'Jun 29 – Jul 13 · Days 18–32', color:'#c084fc',
+  weeks:[
+    {
+      title:'Week 4', range:'Jun 29 – Jul 5', subtitle:'OSS + networking + applications accelerate',
+      days:[
+        { day:18, date:'Jun 29', title:'Second OSS PR + system design 10-11',
+          sections:[
+            { label:'Morning', tasks:[
+              {id:'p2d18t1', text:'Submit second OSS PR — more substantial than first', sub:'Add arXiv tool to LangGraph tools collection. You built it for ArpsTracker — contribute it back.'},
+              {id:'p2d18t2', text:'Write comprehensive tests for your contribution', sub:'Tests are what get a PR approved fast. No tests = slow review.'},
+            ]},
+            { label:'Afternoon', tasks:[
+              {id:'p2d18t3', text:'System design Problem 10: "Agent costs $2/run. Bring to $0.10 without sacrificing quality"', sub:'Cheaper model for routing/filter steps, caching, batching, tool call deduplication.'},
+              {id:'p2d18t4', text:'System design Problem 11: "Agent that learns from corrections without fine-tuning"', sub:'Retrieval-augmented correction: store corrections, retrieve at inference time.'},
+            ]},
+            { label:'Evening', tasks:[
+              {id:'p2d18t5', text:'Hold first coffee chat — engineer at target company', sub:'Ask: "What is the hardest technical problem on your team right now?" This is job search intelligence.'},
+              {id:'p2d18t6', text:'3 Discord answers + commit', sub:''},
+            ]}
+          ],
+          checkpoint:['Second OSS PR submitted with tests','System design 10-11 done','First coffee chat held']
+        },
+        { day:19, date:'Jun 30', title:'5 more applications + freelance push',
+          sections:[
+            { label:'Morning', tasks:[
+              {id:'p2d19t1', text:'Send 5 more warm applications — Indian product companies: Krutrim, Postman AI, Razorpay ML, PhonePe AI, CRED', sub:''},
+              {id:'p2d19t2', text:'Apply to 3 freelance projects on Contra in AI/agents category', sub:'Even a Rs 15K first contract creates "client work" on your CV worth 3 tutorial projects.'},
+            ]},
+            { label:'Afternoon', tasks:[
+              {id:'p2d19t3', text:'System design Problem 12: "Async multi-agent collaboration — agents working in parallel and merging results"', sub:''},
+              {id:'p2d19t4', text:'System design Problem 13: "Tool call failures in agent loop. Retry and fallback logic."', sub:''},
+            ]},
+            { label:'Evening', tasks:[
+              {id:'p2d19t5', text:'Read Lilian Weng agent post fully: lilianweng.github.io/posts/2023-06-23-agent', sub:'This is what senior engineers read. Understanding this puts you in the same conversation.'},
+              {id:'p2d19t6', text:'Post 7: "Lilian Weng agent taxonomy summarised. Here is what matters for builders."', sub:'Thread on X. Gets engagement from researchers and senior engineers.'},
+              {id:'p2d19t7', text:'3 Discord answers + 1 outreach + commit', sub:''},
+            ]}
+          ],
+          checkpoint:['10 total applications sent','3 freelance applications','System design 12-13 done','Lilian Weng post published']
+        },
+        { day:20, date:'Jul 1', title:'Cost optimise + system design 14-15',
+          sections:[
+            { label:'Morning', tasks:[
+              {id:'p2d20t1', text:'Optimise ArpsTracker cost — bring under $0.03/brief', sub:'Cache arXiv results 6 hrs, use haiku-class model for filter node, batch ChromaDB queries.'},
+              {id:'p2d20t2', text:'Re-run evals after optimisation. Record FINAL NUMBERS.', sub:'Baseline vs final is your complete story in every interview. Make it count.'},
+            ]},
+            { label:'Afternoon', tasks:[
+              {id:'p2d20t3', text:'System design Problem 14: "Fine-tune a model to be a better agent. Training data, labeling, evals."', sub:''},
+              {id:'p2d20t4', text:'System design Problem 15: "Design OperatorOS — browser agent for repetitive tasks"', sub:'You now have all 15 system design problems. Review your 3 weakest. Rewrite them.'},
+            ]},
+            { label:'Evening', tasks:[
+              {id:'p2d20t5', text:'Send referral asks to all warm alumni contacts', sub:'"Would you be open to referring me for [role]? I built X and Y [links]." Direct and specific.'},
+              {id:'p2d20t6', text:'3 Discord answers + commit', sub:''},
+            ]}
+          ],
+          checkpoint:['Cost under $0.03/brief','Final eval numbers recorded','All 15 system design problems done','Referral asks sent']
+        },
+        { day:21, date:'Jul 2', title:'Watch ML system design video + mock interview',
+          sections:[
+            { label:'Morning · Watch', tasks:[
+              {id:'p2d21t1', text:'Watch: "Machine learning system design" by Exponent', sub:'youtube.com/watch?v=PhAo_6Hkn5U — 40 min. Most important video on the whole list.', video:'https://youtube.com/watch?v=PhAo_6Hkn5U'},
+            ]},
+            { label:'Afternoon', tasks:[
+              {id:'p2d21t2', text:'Mock interview with a classmate — 45 min total', sub:'Project deep-dive 8 min, 1 system design problem, 2 domain questions, 1 coding problem.'},
+              {id:'p2d21t3', text:'Record it. Watch it back. Note every hesitation. Hesitation = gap. Fill that gap today.', sub:''},
+            ]},
+            { label:'Evening', tasks:[
+              {id:'p2d21t4', text:'University AI club talk — schedule or deliver on ArpsTracker architecture', sub:'Request recording. Upload to YouTube. Professors attend. Doors open.'},
+              {id:'p2d21t5', text:'Post 8: "3 weeks in. Everything I built. All the numbers."', sub:'Milestone posts generate the most inbound from recruiters.'},
+              {id:'p2d21t6', text:'3 Discord answers + 1 outreach + commit', sub:''},
+            ]}
+          ],
+          checkpoint:['System design video watched','Mock interview done + reviewed','Talk scheduled or delivered','Milestone post published']
+        },
+        { day:22, date:'Jul 3', title:'First interviews + accelerate',
+          sections:[
+            { label:'Daily rhythm from here', tasks:[
+              {id:'p2d22t1', text:'Attend every interview — write down every question asked immediately after', sub:'Failing a question is only a problem if you fail the same question twice.'},
+              {id:'p2d22t2', text:'After each interview: identify what you did not know. Study it the same day.', sub:''},
+              {id:'p2d22t3', text:'Send 5 more applications — total should be 15+ in flight', sub:'Target: Elicit, Scale AI, Weights and Biases, Braintrust, Modal (they hire agent engineers specifically).'},
+              {id:'p2d22t4', text:'Watch: "How to explain your ML project in an interview" by DataInterview', sub:'youtube.com/watch?v=BzMC2j4eoLY — 15 min. Last video on the list.', video:'https://youtube.com/watch?v=BzMC2j4eoLY'},
+            ]},
+            { label:'Evening', tasks:[
+              {id:'p2d22t5', text:'Research salary ranges — Levels.fyi, Glassdoor, LinkedIn Salary, Blind', sub:'Build your anchor: floor Rs 55K, anchor Rs 75K. Never reveal floor first.'},
+              {id:'p2d22t6', text:'3 Discord answers + commit', sub:''},
+            ]}
+          ],
+          checkpoint:['First interviews attended','Question database started','15+ applications in flight','Negotiation anchor set']
+        },
+        { day:23, date:'Jul 4', title:'Fully optimise LinkedIn',
+          sections:[
+            { label:'Morning', tasks:[
+              {id:'p2d23t1', text:'LinkedIn headline: "AI Agent Engineer · Built ArpsTracker · LangGraph · Groq · Open to WFH roles"', sub:'This exact headline gets recruiter searches. Every word is a keyword.'},
+              {id:'p2d23t2', text:'Featured section: live project URL + blog post + benchmark post + OSS PR link', sub:'This is what they click. Make it impossible to miss.'},
+              {id:'p2d23t3', text:'Update experience: every bullet uses "Built X using Y resulting in Z" format', sub:''},
+            ]},
+            { label:'Afternoon', tasks:[
+              {id:'p2d23t4', text:'Follow up on all applications older than 5 days with no response', sub:'"Following up. ArpsTracker has [new metric since I applied]. Still very interested."'},
+              {id:'p2d23t5', text:'Apply to 3 international remote contracts on Arc.dev', sub:'USD-denominated. Even one contract creates leverage for domestic salary negotiations.'},
+            ]},
+            { label:'Evening', tasks:[
+              {id:'p2d23t6', text:'Post 9: "I am actively interviewing for AI agent engineering roles. Here is what the interviews look like."', sub:'Transparency post. Recruiters reach out. Engineers engage.'},
+              {id:'p2d23t7', text:'3 Discord answers + commit', sub:''},
+            ]}
+          ],
+          checkpoint:['LinkedIn fully optimised','All old applications followed up','Post 9 published']
+        },
+        { day:24, date:'Jul 5', title:'Second interview rounds',
+          sections:[
+            { label:'Day tasks', tasks:[
+              {id:'p2d24t1', text:'Second rounds — for system design: draw diagram first, talk tradeoffs, ask clarifying questions', sub:'For project deep-dive: lead with the problem, then metrics, then what broke, then what you would do differently.'},
+              {id:'p2d24t2', text:'Re-read each company engineering blog the night before every interview', sub:'Showing you know their specific technical problems is the single biggest differentiator.'},
+              {id:'p2d24t3', text:'Send thank-you notes within 24 hours of every interview', sub:'Include one specific thing you found interesting from the conversation.'},
+              {id:'p2d24t4', text:'3 Discord answers + 1 outreach + commit', sub:''},
+            ]}
+          ],
+          checkpoint:['Second rounds attended','Thank-you notes sent within 24 hrs']
+        }
+      ]
+    },
+    {
+      title:'Week 5', range:'Jul 6–12', subtitle:'Offers arriving — negotiate hard',
+      days:[
+        { day:25, date:'Jul 6', title:'Write negotiation script',
+          sections:[
+            { label:'Day tasks', tasks:[
+              {id:'p2d25t1', text:'Write negotiation script — practice out loud 10 times. Not in your head. Out loud.', sub:'"I have another offer at Rs X. I am prioritising your company because [specific reason]. Can you match Rs Y?"'},
+              {id:'p2d25t2', text:'Practice the number deflection: "I would like to understand the full comp structure first — what is the budgeted range?"', sub:'Never give a number first. Practice until this feels completely natural.'},
+              {id:'p2d25t3', text:'Write your non-negotiables: WFH in writing, Rs 55K+/month, AI agents work, start date', sub:'Clarity in negotiation starts with your own internal clarity. Write it.'},
+              {id:'p2d25t4', text:'Send 5 more applications — 20+ should be in flight by end of today', sub:''},
+              {id:'p2d25t5', text:'3 Discord answers + commit', sub:''},
+            ]}
+          ],
+          checkpoint:['Negotiation script practiced 10x','Number deflection natural','Non-negotiables written','20+ applications']
+        },
+        { day:26, date:'Jul 7', title:'First offers arriving — handle correctly',
+          sections:[
+            { label:'Day tasks', tasks:[
+              {id:'p2d26t1', text:'If an offer arrives: "Thank you. I am excited. I would like 5 business days to review carefully."', sub:'Use those 5 days to accelerate every other pipeline. Do not accept immediately.'},
+              {id:'p2d26t2', text:'Email every pending company: "I have an offer and decision deadline of [date]. Can you expedite?"', sub:'Companies want candidates who have offers. Use this.'},
+              {id:'p2d26t3', text:'Negotiate first offer: anchor Rs 75K. Use competing offer or freelance contract as leverage.', sub:'"I have a contract at Rs X/month. I would need to match that to make this work."'},
+              {id:'p2d26t4', text:'Negotiate WFH in writing simultaneously. Not separately. Same conversation.', sub:''},
+              {id:'p2d26t5', text:'3 Discord answers + commit', sub:''},
+            ]}
+          ],
+          checkpoint:['First offer handled correctly','Expedite emails sent','Negotiation started with anchor']
+        },
+        { day:27, date:'Jul 8', title:'Counter offers + competing leverage',
+          sections:[
+            { label:'Day tasks', tasks:[
+              {id:'p2d27t1', text:'Apply to 3 companies in same 2-week window — stagger for simultaneous offers', sub:'Offers that arrive 3 weeks apart give you no leverage. Batch applications so they land together.'},
+              {id:'p2d27t2', text:'If they push back on salary: "I have another process at [type] further along at Rs X. Can you come up to Rs Y?"', sub:'Vague competing offer is still leverage. You do not have to name the company.'},
+              {id:'p2d27t3', text:'If they cannot move on base: negotiate signing bonus, earlier review date, equity cliff reduction', sub:'There is always something they can move on. Find it.'},
+              {id:'p2d27t4', text:'3 Discord answers + commit', sub:''},
+            ]}
+          ],
+          checkpoint:['Competing offers pipeline created','At least one additional concession negotiated']
+        },
+        { day:28, date:'Jul 9', title:'Review offer letters line by line',
+          sections:[
+            { label:'Day tasks', tasks:[
+              {id:'p2d28t1', text:'Read every offer letter line by line — do NOT skim', sub:'WFH policy in writing. Moonlighting clause (blocks freelance?). IP clause (affects OSS?). Notice period.'},
+              {id:'p2d28t2', text:'If anything wrong: respond in writing specifying the exact change needed before you can accept', sub:'"I noticed X clause — I would need Y change before formally accepting."'},
+              {id:'p2d28t3', text:'Keep ALL other applications active until something is signed', sub:'Even if this seems like your dream offer. Offers get rescinded. Companies go bankrupt.'},
+              {id:'p2d28t4', text:'Post 10: "5 weeks in. Here is the full signal stack: projects, OSS, benchmark, applications."', sub:'Link everything. This is your comprehensive signal post.'},
+              {id:'p2d28t5', text:'3 Discord answers + commit', sub:''},
+            ]}
+          ],
+          checkpoint:['All offer letters reviewed','Any issues flagged in writing','Full signal stack post published']
+        }
+      ]
+    }
+  ]
+},
+
+// ── PHASE 3: APPLICATIONS + CLOSE ──────────────────────────────────────────
+{
+  id:3, title:'Phase 3 · Applications + Close', range:'Jul 10–24 · Days 29–43', color:'#f0c878',
+  weeks:[
+    {
+      title:'Week 6', range:'Jul 10–17', subtitle:'Final rounds + negotiate hard',
+      days:[
+        { day:29, date:'Jul 10', title:'Final interview rounds — maximum energy',
+          sections:[
+            { label:'Day tasks', tasks:[
+              {id:'p3d29t1', text:'Final rounds — treat each one like the most important interview of your life. It might be.', sub:'Prepare the night before every single one. Re-read their engineering blog.'},
+              {id:'p3d29t2', text:'5 new applications this week even if you have offers', sub:'Offers fall through. Never stop until something is signed. This is what separates closers.'},
+              {id:'p3d29t3', text:'Send thank-you notes within 24 hours of every interview — specific and genuine', sub:''},
+              {id:'p3d29t4', text:'3 Discord answers + commit', sub:''},
+            ]}
+          ],
+          checkpoint:['All final rounds attended','5 new applications this week','Thank-you notes sent']
+        },
+        { day:30, date:'Jul 11', title:'Final negotiation push',
+          sections:[
+            { label:'Day tasks', tasks:[
+              {id:'p3d30t1', text:'Use all competing offers to renegotiate every open process', sub:'"I received an offer from [company] at Rs X. I prefer your mission — can you match?"'},
+              {id:'p3d30t2', text:'Negotiate non-salary simultaneously: WFH in writing, learning budget, compute access, equity cliff', sub:'Rs 50K WFH + Rs 1L learning budget > Rs 55K in office. Know what you are trading.'},
+              {id:'p3d30t3', text:'Do not accept under pressure. Take your 5 business days even if you want to say yes.', sub:''},
+              {id:'p3d30t4', text:'3 Discord answers + commit', sub:''},
+            ]}
+          ],
+          checkpoint:['All competing offers used as leverage','Non-salary terms negotiated']
+        },
+        { day:31, date:'Jul 12', title:'Decision framework',
+          sections:[
+            { label:'Day tasks', tasks:[
+              {id:'p3d31t1', text:'List all open offers in a spreadsheet — salary, WFH, role, company, equity, start date', sub:'The best offer is not always the highest salary. Best for career = most agent work + learning.'},
+              {id:'p3d31t2', text:'Inform companies you are declining — gracious and specific. AI world is small.', sub:'"I have decided to go in a different direction but really appreciated the time."'},
+              {id:'p3d31t3', text:'3 Discord answers + commit', sub:''},
+            ]}
+          ],
+          checkpoint:['All offers compared in spreadsheet','Declining companies notified graciously']
+        },
+        { day:32, date:'Jul 13', title:'Sign or accelerate',
+          sections:[
+            { label:'Day tasks', tasks:[
+              {id:'p3d32t1', text:'If target offer ready (Rs 55K+ WFH agents role, WFH in writing): sign today. Do not overthink.', sub:'You did the due diligence. Trust it. Sign.'},
+              {id:'p3d32t2', text:'If not at target yet: emergency outreach sprint — 10 outreach messages today to every warm contact', sub:'"I am making a decision this week and am still open. Can we talk?"'},
+              {id:'p3d32t3', text:'3 Discord answers + commit', sub:''},
+            ]}
+          ],
+          checkpoint:['Offer signed OR emergency outreach sprint launched']
+        },
+        { day:33, date:'Jul 14', title:'Buffer day — fill gaps',
+          sections:[
+            { label:'Day tasks', tasks:[
+              {id:'p3d33t1', text:'If signed: prepare for Day 1. Read company engineering blog. Note questions to ask.', sub:'Being prepared for Day 1 is remembered for years.'},
+              {id:'p3d33t2', text:'If not signed: 10 new applications. Call every warm contact. Create urgency now.', sub:'You have 17 days. That is enough. Do not panic — execute.'},
+              {id:'p3d33t3', text:'Expedite every remaining pipeline: "I need to make a decision by Jul 31. Can you expedite?"', sub:''},
+              {id:'p3d33t4', text:'3 Discord answers + commit', sub:''},
+            ]}
+          ],
+          checkpoint:['Signed OR 10 new applications + pipeline expedited']
+        }
+      ]
+    },
+    {
+      title:'Week 7', range:'Jul 15–21', subtitle:'Final rounds + negotiate to close',
+      days:[
+        { day:34, date:'Jul 15', title:'Final interview rounds — maximum energy',
+          sections:[
+            { label:'Day tasks', tasks:[
+              {id:'p3d34t1', text:'Final rounds — treat each one like the most important of your life. It might be.', sub:'Prepare the night before every single one. Re-read their engineering blog.'},
+              {id:'p3d34t2', text:'5 new applications this week even if you have offers', sub:'Offers fall through. Never stop until something is signed.'},
+              {id:'p3d34t3', text:'Send thank-you notes within 24 hours of every interview — specific and genuine', sub:'Include one specific thing you found interesting from the conversation.'},
+              {id:'p3d34t4', text:'3 Discord answers + 1 outreach + commit', sub:''},
+            ]}
+          ],
+          checkpoint:['All final rounds attended','5 new applications this week','Thank-you notes sent']
+        },
+        { day:35, date:'Jul 16', title:'Negotiate every open offer',
+          sections:[
+            { label:'Day tasks', tasks:[
+              {id:'p3d35t1', text:'Use all competing offers to renegotiate every open process simultaneously', sub:'"I received an offer from [company] at Rs X. I prefer your mission — can you match?"'},
+              {id:'p3d35t2', text:'Negotiate non-salary: WFH in writing, learning budget, compute access, equity cliff', sub:'Rs 50K WFH + Rs 1L learning budget > Rs 55K in office. Know your trade-offs.'},
+              {id:'p3d35t3', text:'Do not accept under pressure. Take your 5 business days even if you want to say yes.', sub:''},
+              {id:'p3d35t4', text:'3 Discord answers + commit', sub:''},
+            ]}
+          ],
+          checkpoint:['All competing offers used as leverage','Non-salary terms negotiated']
+        },
+        { day:36, date:'Jul 17', title:'Counter offers + squeeze concessions',
+          sections:[
+            { label:'Day tasks', tasks:[
+              {id:'p3d36t1', text:'If they push back on salary: "I have another process further along at Rs X. Can you match Rs Y?"', sub:'You do not have to name the company. Vague competing offer is still real leverage.'},
+              {id:'p3d36t2', text:'If they cannot move on base: push for signing bonus, earlier review date, equity cliff reduction', sub:'There is always something they can move on. Find it.'},
+              {id:'p3d36t3', text:'Apply to 3 more companies — keep the pipeline alive until pen hits paper', sub:''},
+              {id:'p3d36t4', text:'3 Discord answers + commit', sub:''},
+            ]}
+          ],
+          checkpoint:['Counter offer made on every open negotiation','At least one concession gained']
+        },
+        { day:37, date:'Jul 18', title:'Read offer letters line by line',
+          sections:[
+            { label:'Day tasks', tasks:[
+              {id:'p3d37t1', text:'Read every offer letter line by line — do not skim a single clause', sub:'WFH policy in writing. Moonlighting clause (blocks freelance?). IP clause (affects OSS?). Notice period.'},
+              {id:'p3d37t2', text:'If anything wrong: respond in writing with the exact change needed before you accept', sub:'"I noticed X clause — I need Y change before I can formally accept."'},
+              {id:'p3d37t3', text:'Keep ALL other applications active until something is signed', sub:'Even if this seems like the perfect offer. Offers get rescinded.'},
+              {id:'p3d37t4', text:'3 Discord answers + commit', sub:''},
+            ]}
+          ],
+          checkpoint:['All offer letters reviewed line by line','Issues flagged in writing','All pipelines still active']
+        },
+        { day:38, date:'Jul 19', title:'Final negotiations',
+          sections:[
+            { label:'Day tasks', tasks:[
+              {id:'p3d38t1', text:'Use any new competing offers to renegotiate — every new offer is fresh leverage', sub:''},
+              {id:'p3d38t2', text:'If you have your target offer (Rs 55K+ WFH agents role): prepare to accept', sub:'Final check: Is WFH in writing? Is salary correct? Are the clauses clean? Then accept.'},
+              {id:'p3d38t3', text:'If not at target yet: increase applications to 10 this week', sub:''},
+              {id:'p3d38t4', text:'3 Discord answers + commit', sub:''},
+            ]}
+          ],
+          checkpoint:['All competing offers used as leverage','Final offer terms confirmed or volume increased']
+        },
+        { day:39, date:'Jul 20', title:'Decision preparation',
+          sections:[
+            { label:'Day tasks', tasks:[
+              {id:'p3d39t1', text:'List all open offers in one spreadsheet — salary, WFH, role, equity, start date', sub:'Best offer is not always highest salary. Best = most agents work + learning + WFH.'},
+              {id:'p3d39t2', text:'Inform companies you are declining — gracious and specific. AI world is small.', sub:'"I have decided to go in a different direction but really appreciated the time and conversation."'},
+              {id:'p3d39t3', text:'3 Discord answers + commit', sub:''},
+            ]}
+          ],
+          checkpoint:['All offers compared in spreadsheet','Declining companies notified graciously']
+        },
+        { day:40, date:'Jul 21', title:'Sign or last emergency sprint',
+          sections:[
+            { label:'Day tasks', tasks:[
+              {id:'p3d40t1', text:'If target offer ready: sign today. You did the work. Trust the process.', sub:'WFH in writing. Rs 55K+. Agents role. All three? Sign.'},
+              {id:'p3d40t2', text:'If not yet: emergency outreach — 10 messages to every warm contact you have not reached yet', sub:'"I am making a final decision this week and am still open. Can we talk today?"'},
+              {id:'p3d40t3', text:'3 Discord answers + commit', sub:''},
+            ]}
+          ],
+          checkpoint:['Offer signed OR emergency outreach sprint launched']
+        }
+      ]
+    },
+    {
+      title:'Week 8', range:'Jul 22–24', subtitle:'Final push — 10 days left',
+      days:[
+        { day:41, date:'Jul 22', title:'Buffer — final push',
+          sections:[
+            { label:'Day tasks', tasks:[
+              {id:'p3d41t1', text:'If signed: use today to write the milestone post and prepare for Day 1', sub:''},
+              {id:'p3d41t2', text:'If not signed: 10 new applications today. Call every warm contact. Create urgency.', sub:'10 days left. That is enough. Do not panic — execute.'},
+              {id:'p3d41t3', text:'Expedite every remaining pipeline one final time', sub:'"I have a hard decision deadline of July 31. Can you expedite your process?"'},
+              {id:'p3d41t4', text:'3 Discord answers + commit', sub:''},
+            ]}
+          ],
+          checkpoint:['Signed OR 10 new applications + all pipelines expedited']
+        },
+        { day:42, date:'Jul 23', title:'Final round interviews',
+          sections:[
+            { label:'Day tasks', tasks:[
+              {id:'p3d42t1', text:'Any remaining final rounds — treat every one as if it is your only option', sub:''},
+              {id:'p3d42t2', text:'Expedite every company: "I am making a final decision this week. Can you move faster?"', sub:'Companies want candidates who have competing offers. Urgency creates urgency.'},
+              {id:'p3d42t3', text:'Negotiate any outstanding offers using Jul 31 as leverage: "I need to decide by end of month"', sub:''},
+              {id:'p3d42t4', text:'3 Discord answers + commit', sub:''},
+            ]}
+          ],
+          checkpoint:['All final rounds attended','All pipelines expedited','Jul 31 deadline communicated']
+        },
+        { day:43, date:'Jul 24', title:'Penultimate push',
+          sections:[
+            { label:'Day tasks', tasks:[
+              {id:'p3d43t1', text:'If multiple offers: choose the one with best agents work + WFH + growth combination', sub:'Highest salary is not always best career move at this stage.'},
+              {id:'p3d43t2', text:'Accept the best offer that hits all 3: Rs 55K+/month, WFH in writing, AI agents role', sub:'Do not let perfect be the enemy of great. A great offer today beats a perfect offer in August.'},
+              {id:'p3d43t3', text:'3 Discord answers + commit — keep streak alive to the end', sub:''},
+            ]}
+          ],
+          checkpoint:['Decision framework clear','Best available offer accepted or final negotiations happening']
+        }
+      ]
+    }
+  ]
+},
+
+// ── PHASE 4: CLOSE ──────────────────────────────────────────────────────────
+{
+  id:4, title:'Phase 4 · Close', range:'Jul 25–31 · Days 44–50', color:'#ff7b7b',
+  weeks:[{
+    title:'Final Week', range:'Jul 25–31', subtitle:'Sign the offer',
+    days:[
+      { day:44, date:'Jul 25', title:'Final negotiation push',
+        sections:[
+          { label:'Tasks', tasks:[
+            {id:'p4d44t1', text:'Use competing offers as leverage on every open negotiation', sub:'"I have an offer at Rs X. I am prioritising you. Can you match?"'},
+            {id:'p4d44t2', text:'Never accept verbally — always wait for written offer letter with WFH clause included', sub:'WFH must be in the written contract. Not verbal. Written. Non-negotiable.'},
+            {id:'p4d44t3', text:'Read every line of the offer letter before signing', sub:'Moonlighting clause, IP clause, notice period, WFH policy. Every single line.'},
+            {id:'p4d44t4', text:'Continue attending any remaining interviews — do not stop until signed', sub:''},
+          ]}
+        ],
+        checkpoint:['Competing offers in play','WFH confirmed in writing','Offer letter reviewed line by line']
+      },
+      { day:47, date:'Jul 28', title:'Penultimate push',
+        sections:[
+          { label:'Tasks', tasks:[
+            {id:'p4d47t1', text:'"I need to make a decision by July 31. Can we finalise terms today?"', sub:'Deadline is real and companies know it. Use it explicitly.'},
+            {id:'p4d47t2', text:'Attend any remaining final rounds with maximum energy', sub:''},
+            {id:'p4d47t3', text:'Inform companies you are not joining — gracious, early, specific', sub:'The AI world is small. These people will come up again.'},
+            {id:'p4d47t4', text:'1 commit + 3 Discord answers — keep the streak alive', sub:''},
+          ]}
+        ],
+        checkpoint:['Final terms negotiated','Declining companies informed graciously']
+      },
+      { day:50, date:'Jul 31', title:'🏁 Sign the offer',
+        sections:[
+          { label:'Final', tasks:[
+            {id:'p4d50t1', text:'Sign offer: Rs 55K+/month, WFH guaranteed in writing, AI agents engineering role', sub:'50 days. From zero to hired. You did it.'},
+            {id:'p4d50t2', text:'Post the milestone: "I got my first AI engineering offer in 50 days. Full breakdown."', sub:'This post helps hundreds of people who are exactly where you were. Pay it forward.'},
+            {id:'p4d50t3', text:'Send genuine thank-you notes to everyone who helped — referrers, coffee chats, professors, Discord helpers', sub:'Every person. Specific and personal. These relationships are your career now.'},
+          ]}
+        ],
+        checkpoint:['✅ Offer signed Rs 55K+/month','✅ WFH guaranteed in writing','✅ AI agents engineering role','✅ Milestone post published','✅ Thank-you notes sent']
+      }
+    ]
+  }]
+}
 ];
 
 const NONNEG = [
@@ -1482,323 +1076,198 @@ const NONNEG = [
   {id:'nn4',text:'1 paper section read'},
 ];
 
-// ── STORAGE ───────────────────────────────────────────────────────────────────
+// ── STORAGE ──────────────────────────────────────────────────────────────────
+function getStorage(){ try{return JSON.parse(localStorage.getItem('at_tracker')||'{}')}catch(e){return{}} }
+function saveStorage(d){ localStorage.setItem('at_tracker',JSON.stringify(d)) }
 
-function getStorage() {
-  try { return JSON.parse(localStorage.getItem('st_tracker') || '{}'); }
-  catch(e) { return {}; }
+function toggleTask(id,dKey){
+  const d=getStorage();
+  if(!d.tasks)d.tasks={};
+  if(!d.tasks[dKey])d.tasks[dKey]={};
+  d.tasks[dKey][id]=!d.tasks[dKey][id];
+  if(!d.tasks[dKey][id])delete d.tasks[dKey][id];
+  saveStorage(d);
+  return !!d.tasks[dKey][id];
+}
+function isTaskDone(id,dKey){ const d=getStorage(); return !!(d.tasks&&d.tasks[dKey]&&d.tasks[dKey][id]); }
+function isNonNegDone(id){ const d=getStorage(),k=todayKey(); return !!(d.nonneg&&d.nonneg[k]&&d.nonneg[k][id]); }
+function toggleNonNeg(id){
+  const d=getStorage(),k=todayKey();
+  if(!d.nonneg)d.nonneg={};
+  if(!d.nonneg[k])d.nonneg[k]={};
+  d.nonneg[k][id]=!d.nonneg[k][id];
+  saveStorage(d);
+  return !!d.nonneg[k][id];
 }
 
-function saveStorage(data) { localStorage.setItem('st_tracker', JSON.stringify(data)); }
-
-function toggleTask(taskId, dKey) {
-  const data = getStorage();
-  if (!data.tasks) data.tasks = {};
-  if (!data.tasks[dKey]) data.tasks[dKey] = {};
-  data.tasks[dKey][taskId] = !data.tasks[dKey][taskId];
-  if (!data.tasks[dKey][taskId]) delete data.tasks[dKey][taskId];
-  saveStorage(data);
-  return !!data.tasks[dKey][taskId];
-}
-
-function isTaskDone(taskId, dKey) {
-  const data = getStorage();
-  return !!(data.tasks && data.tasks[dKey] && data.tasks[dKey][taskId]);
-}
-
-function isNonNegDone(id) {
-  const data = getStorage();
-  const key = todayKey();
-  return !!(data.nonneg && data.nonneg[key] && data.nonneg[key][id]);
-}
-
-function toggleNonNeg(id) {
-  const data = getStorage();
-  const key = todayKey();
-  if (!data.nonneg) data.nonneg = {};
-  if (!data.nonneg[key]) data.nonneg[key] = {};
-  data.nonneg[key][id] = !data.nonneg[key][id];
-  saveStorage(data);
-  return !!data.nonneg[key][id];
-}
-
-// ── STREAK & STATS ────────────────────────────────────────────────────────────
-
-function computeStreak() {
-  const data = getStorage();
-  if (!data.tasks) return 0;
-  let streak = 0;
-  let current = new Date(TODAY);
-  for (let i = 0; i < 61; i++) {
-    const key = current.toISOString().split('T')[0];
-    const hasActivity = data.tasks[key] && Object.values(data.tasks[key]).some(v => v);
-    if (hasActivity) { streak++; current.setDate(current.getDate() - 1); }
-    else if (i === 0) { current.setDate(current.getDate() - 1); }
+// ── STREAK ───────────────────────────────────────────────────────────────────
+function computeStreak(){
+  const d=getStorage(); if(!d.tasks)return 0;
+  let streak=0,cur=new Date(TODAY);
+  for(let i=0;i<61;i++){
+    const k=cur.toISOString().split('T')[0];
+    const has=d.tasks[k]&&Object.values(d.tasks[k]).some(v=>v);
+    if(has){streak++;cur.setDate(cur.getDate()-1);}
+    else if(i===0){cur.setDate(cur.getDate()-1);}
     else break;
   }
   return streak;
 }
-
-function computeTotalDone() {
-  const data = getStorage();
-  if (!data.tasks) return 0;
-  let count = 0;
-  for (const dayData of Object.values(data.tasks))
-    count += Object.values(dayData).filter(v => v).length;
-  return count;
+function computeTotalDone(){
+  const d=getStorage(); if(!d.tasks)return 0;
+  let c=0;
+  for(const dd of Object.values(d.tasks))c+=Object.values(dd).filter(v=>v).length;
+  return c;
 }
-
-function computeTotalTasks() {
-  let total = 0;
-  for (const phase of PHASES)
-    for (const week of phase.weeks)
-      for (const day of week.days)
-        for (const section of day.sections)
-          total += section.tasks.length;
-  return total;
+function computeTotalTasks(){
+  let t=0;
+  for(const p of PHASES)for(const w of p.weeks)for(const day of w.days)for(const s of day.sections)t+=s.tasks.length;
+  return t;
 }
+function getDayStatus(day){ const k=dayDateKey(day),tk=todayKey(); return k===tk?'today':k<tk?'past':'upcoming'; }
 
-function getDayStatus(day) {
-  const dKey = dayDateKey(day);
-  const todKey = todayKey();
-  if (dKey === todKey) return 'today';
-  if (dKey < todKey) return 'past';
-  return 'upcoming';
-}
-
-// ── EXPORT / IMPORT ───────────────────────────────────────────────────────────
-
-function exportData() {
-  const data = getStorage();
-  const json = JSON.stringify(data, null, 2);
-  const blob = new Blob([json], {type:'application/json'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'successtracker-backup-' + todayKey() + '.json';
-  a.click();
+// ── EXPORT/IMPORT ─────────────────────────────────────────────────────────────
+function exportData(){
+  const data=getStorage();
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download='arpstracker-backup-'+todayKey()+'.json'; a.click();
   URL.revokeObjectURL(url);
 }
-
-function showImport() {
-  document.getElementById('importOverlay').classList.add('show');
-  document.getElementById('importArea').value = '';
-}
-
-function closeImport() {
-  document.getElementById('importOverlay').classList.remove('show');
-}
-
-function doImport() {
-  const raw = document.getElementById('importArea').value.trim();
-  try {
-    const parsed = JSON.parse(raw);
-    if (typeof parsed !== 'object') throw new Error('Invalid');
-    saveStorage(parsed);
-    closeImport();
-    renderSidebar();
-    renderMain();
-    alert('✅ Progress imported successfully!');
-  } catch(e) {
-    alert('❌ Invalid JSON. Copy the exact exported file content and paste it here.');
-  }
+function showImport(){ document.getElementById('importOverlay').classList.add('show'); document.getElementById('importArea').value=''; }
+function closeImport(){ document.getElementById('importOverlay').classList.remove('show'); }
+function doImport(){
+  try{
+    const parsed=JSON.parse(document.getElementById('importArea').value.trim());
+    if(typeof parsed!=='object')throw new Error();
+    saveStorage(parsed); closeImport(); renderSidebar(); renderMain();
+    alert('✅ Progress imported!');
+  }catch(e){ alert('❌ Invalid JSON.'); }
 }
 
 // ── DRAWER ────────────────────────────────────────────────────────────────────
-
-function openDrawer() {
-  document.getElementById('drawer').classList.add('open');
-  document.getElementById('drawerOverlay').classList.add('show');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeDrawer() {
-  document.getElementById('drawer').classList.remove('open');
-  document.getElementById('drawerOverlay').classList.remove('show');
-  document.body.style.overflow = '';
-}
+function openDrawer(){ document.getElementById('drawer').classList.add('open'); document.getElementById('drawerOverlay').classList.add('show'); document.body.style.overflow='hidden'; }
+function closeDrawer(){ document.getElementById('drawer').classList.remove('open'); document.getElementById('drawerOverlay').classList.remove('show'); document.body.style.overflow=''; }
 
 // ── RENDER ────────────────────────────────────────────────────────────────────
+let currentPhase=0;
+let modalShownForWeeks=new Set(JSON.parse(localStorage.getItem('at_modal_shown')||'[]'));
 
-let currentPhase = 0;
-let modalShownForWeeks = new Set(JSON.parse(localStorage.getItem('st_modal_shown') || '[]'));
+function setEl(id,val){ const e=document.getElementById(id); if(e)e.textContent=val; }
 
-function renderSidebar() {
-  const streak = computeStreak();
-  const done = computeTotalDone();
-  const total = computeTotalTasks();
-  const pct = total > 0 ? Math.round(done / total * 100) : 0;
-  const msLeft = END_DATE - TODAY;
-  const daysLeft = Math.max(0, Math.ceil(msLeft / 86400000));
+function renderSidebar(){
+  const streak=computeStreak(),done=computeTotalDone(),total=computeTotalTasks();
+  const pct=total>0?Math.round(done/total*100):0;
+  const daysLeft=Math.max(0,Math.ceil((END_DATE-TODAY)/86400000));
 
-  // Desktop sidebar
-  setEl('streakNum', streak);
-  setEl('streakSub', streak === 1 ? 'day in a row' : 'days in a row');
-  setEl('globalDone', done + ' tasks done');
-  setEl('globalPct', pct + '%');
-  setEl('daysLeft', daysLeft);
-  const gb = document.getElementById('globalBar');
-  if (gb) gb.style.width = pct + '%';
+  ['streakNum','dStreakNum'].forEach(id=>setEl(id,streak));
+  ['streakSub','dStreakSub'].forEach(id=>setEl(id,streak===1?'day in a row':'days in a row'));
+  ['globalDone','dGlobalDone'].forEach(id=>setEl(id,done+' tasks done'));
+  ['globalPct','dGlobalPct'].forEach(id=>setEl(id,pct+'%'));
+  ['daysLeft','dDaysLeft'].forEach(id=>setEl(id,daysLeft));
+  setEl('mStreak',streak); setEl('mDone',done); setEl('mDays',daysLeft);
+  setEl('todayBadge',TODAY.toLocaleDateString('en-IN',{weekday:'short',month:'short',day:'numeric'}));
 
-  // Drawer
-  setEl('dStreakNum', streak);
-  setEl('dStreakSub', streak === 1 ? 'day in a row' : 'days in a row');
-  setEl('dGlobalDone', done + ' tasks done');
-  setEl('dGlobalPct', pct + '%');
-  setEl('dDaysLeft', daysLeft);
-  const dgb = document.getElementById('dGlobalBar');
-  if (dgb) dgb.style.width = pct + '%';
+  const gb=document.getElementById('globalBar'); if(gb)gb.style.width=pct+'%';
+  const dgb=document.getElementById('dGlobalBar'); if(dgb)dgb.style.width=pct+'%';
 
-  // Mobile stats bar
-  setEl('mStreak', streak);
-  setEl('mDone', done);
-  setEl('mDays', daysLeft);
-
-  // Today badge
-  setEl('todayBadge', TODAY.toLocaleDateString('en-IN', {weekday:'short',month:'short',day:'numeric'}));
-
-  // Streak dots
-  const data = getStorage();
-  ['streakDots','dStreakDots'].forEach(id => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.innerHTML = '';
-    for (let i = 13; i >= 0; i--) {
-      const d = new Date(TODAY); d.setDate(d.getDate() - i);
-      const key = d.toISOString().split('T')[0];
-      const dot = document.createElement('div');
-      dot.className = 'streak-dot';
-      if (key === todayKey()) dot.classList.add('today');
-      else if (data.tasks && data.tasks[key] && Object.values(data.tasks[key]).some(v=>v)) dot.classList.add('done');
+  const data=getStorage();
+  ['streakDots','dStreakDots'].forEach(id=>{
+    const el=document.getElementById(id); if(!el)return; el.innerHTML='';
+    for(let i=13;i>=0;i--){
+      const d=new Date(TODAY); d.setDate(d.getDate()-i);
+      const k=d.toISOString().split('T')[0];
+      const dot=document.createElement('div'); dot.className='streak-dot';
+      if(k===todayKey())dot.classList.add('today');
+      else if(data.tasks&&data.tasks[k]&&Object.values(data.tasks[k]).some(v=>v))dot.classList.add('done');
       el.appendChild(dot);
     }
   });
 
-  // Phase completions
-  PHASES.forEach((phase, i) => {
-    let pDone = 0, pTotal = 0;
-    for (const week of phase.weeks)
-      for (const day of week.days)
-        for (const section of day.sections) {
-          pTotal += section.tasks.length;
-          const dKey = dayDateKey(day.day);
-          if (data.tasks && data.tasks[dKey])
-            pDone += section.tasks.filter(t => data.tasks[dKey][t.id]).length;
-        }
-    setEl('pc'+i, pDone+'/'+pTotal);
-    setEl('dpc'+i, pDone+'/'+pTotal);
-  });
-
-  // Phase buttons
-  PHASES.forEach((p, i) => {
-    const btn = document.getElementById('pb'+i);
-    if (btn) btn.className = 'phase-btn' + (i===currentPhase?' active':'');
-    const dbtn = document.getElementById('dpb'+i);
-    if (dbtn) dbtn.className = 'phase-btn' + (i===currentPhase?' active':'');
-    const bnav = document.getElementById('bnav'+i);
-    if (bnav) bnav.className = 'bnav-btn' + (i===currentPhase?' active':'');
+  PHASES.forEach((p,i)=>{
+    let pd=0,pt=0;
+    for(const w of p.weeks)for(const day of w.days)for(const s of day.sections){
+      pt+=s.tasks.length;
+      const dk=dayDateKey(day.day);
+      if(data.tasks&&data.tasks[dk])pd+=s.tasks.filter(t=>data.tasks[dk][t.id]).length;
+    }
+    setEl('pc'+i,pd+'/'+pt); setEl('dpc'+i,pd+'/'+pt);
+    const btn=document.getElementById('pb'+i); if(btn)btn.className='phase-btn'+(i===currentPhase?' active':'');
+    const dbtn=document.getElementById('dpb'+i); if(dbtn)dbtn.className='phase-btn'+(i===currentPhase?' active':'');
+    const bnav=document.getElementById('bnav'+i); if(bnav)bnav.className='bnav-btn'+(i===currentPhase?' active':'');
   });
 }
 
-function setEl(id, val) {
-  const el = document.getElementById(id);
-  if (el) el.textContent = val;
-}
+function renderMain(){
+  const phase=PHASES[currentPhase];
+  setEl('phaseTitle',phase.title); setEl('phaseRange',phase.range);
+  const content=document.getElementById('mainContent'); content.innerHTML='';
 
-function renderMain() {
-  const phase = PHASES[currentPhase];
-  setEl('phaseTitle', phase.title);
-  setEl('phaseRange', phase.range);
+  const nnEl=document.createElement('div'); nnEl.className='nonneg';
+  nnEl.innerHTML='<div class="nonneg-label">Daily non-negotiables · Today</div><div class="nonneg-grid" id="nonnegGrid"></div>';
+  content.appendChild(nnEl); renderNonNeg();
 
-  const content = document.getElementById('mainContent');
-  content.innerHTML = '';
-
-  // Non-negotiables
-  const nnEl = document.createElement('div');
-  nnEl.className = 'nonneg';
-  nnEl.innerHTML = `<div class="nonneg-label">Daily non-negotiables · Today</div><div class="nonneg-grid" id="nonnegGrid"></div>`;
-  content.appendChild(nnEl);
-  renderNonNeg();
-
-  // Weeks
-  for (const week of phase.weeks) {
-    const weekEl = document.createElement('div');
-
-    let weekDone = 0, weekTotal = 0;
-    const data = getStorage();
-    for (const day of week.days)
-      for (const section of day.sections) {
-        weekTotal += section.tasks.length;
-        const dKey = dayDateKey(day.day);
-        if (data.tasks && data.tasks[dKey])
-          weekDone += section.tasks.filter(t => data.tasks[dKey][t.id]).length;
-      }
-
-    const wh = document.createElement('div');
-    wh.className = 'week-header';
-    wh.innerHTML = `<div class="week-title">${week.title}</div><div class="week-range">${week.range}</div><div class="week-progress">${weekDone}/${weekTotal}</div>`;
+  for(const week of phase.weeks){
+    const weekEl=document.createElement('div');
+    let wd=0,wt=0; const data=getStorage();
+    for(const day of week.days)for(const s of day.sections){
+      wt+=s.tasks.length;
+      const dk=dayDateKey(day.day);
+      if(data.tasks&&data.tasks[dk])wd+=s.tasks.filter(t=>data.tasks[dk][t.id]).length;
+    }
+    const wh=document.createElement('div'); wh.className='week-header';
+    wh.innerHTML=`<div class="week-title">${week.title}</div><div class="week-range">${week.range}</div><div class="week-progress">${wd}/${wt}</div>`;
     weekEl.appendChild(wh);
-
-    const pd = document.createElement('div');
-    pd.className = 'phase-divider';
-    pd.innerHTML = `<div class="phase-divider-line"></div><div class="phase-divider-label">${week.subtitle}</div><div class="phase-divider-line"></div>`;
+    const pd=document.createElement('div'); pd.className='phase-divider';
+    pd.innerHTML=`<div class="phase-divider-line"></div><div class="phase-divider-label">${week.subtitle}</div><div class="phase-divider-line"></div>`;
     weekEl.appendChild(pd);
-
-    for (const day of week.days) weekEl.appendChild(renderDay(day));
+    for(const day of week.days)weekEl.appendChild(renderDay(day));
     content.appendChild(weekEl);
 
-    if (weekDone > 0 && weekDone === weekTotal) {
-      const wKey = phase.id + '-' + week.title;
-      if (!modalShownForWeeks.has(wKey)) {
+    if(wd>0&&wd===wt){
+      const wKey=phase.id+'-'+week.title;
+      if(!modalShownForWeeks.has(wKey)){
         modalShownForWeeks.add(wKey);
-        localStorage.setItem('st_modal_shown', JSON.stringify([...modalShownForWeeks]));
-        setTimeout(() => showModal(week.title), 600);
+        localStorage.setItem('at_modal_shown',JSON.stringify([...modalShownForWeeks]));
+        setTimeout(()=>showModal(week.title),600);
       }
     }
   }
 }
 
-function renderDay(day) {
-  const status = getDayStatus(day.day);
-  const dKey = dayDateKey(day.day);
-  const data = getStorage();
-
-  let dayDone = 0, dayTotal = 0;
-  for (const section of day.sections) {
-    dayTotal += section.tasks.length;
-    if (data.tasks && data.tasks[dKey])
-      dayDone += section.tasks.filter(t => data.tasks[dKey][t.id]).length;
-  }
-
-  const block = document.createElement('div');
-  block.className = 'day-block' + (status==='today'?' today-block':'') + (dayDone===dayTotal&&dayTotal>0?' completed-block':'');
-  block.id = 'day-' + day.day;
-
-  let badgeHtml = '';
-  if (status==='today') badgeHtml = '<span class="day-badge badge-today">today</span>';
-  else if (status==='past'&&dayDone===dayTotal&&dayTotal>0) badgeHtml = '<span class="day-badge badge-done">✓ done</span>';
-  else if (status==='upcoming') badgeHtml = '<span class="day-badge badge-upcoming">upcoming</span>';
-
-  const isOpen = status==='today' || (status==='past'&&dayDone<dayTotal);
-
-  block.innerHTML = `
+function renderDay(day){
+  const status=getDayStatus(day.day),dKey=dayDateKey(day.day),data=getStorage();
+  let dd=0,dt=0;
+  for(const s of day.sections){ dt+=s.tasks.length; if(data.tasks&&data.tasks[dKey])dd+=s.tasks.filter(t=>data.tasks[dKey][t.id]).length; }
+  const block=document.createElement('div');
+  block.className='day-block'+(status==='today'?' today-block':'')+(dd===dt&&dt>0?' completed-block':'');
+  block.id='day-'+day.day;
+  let badge='';
+  if(status==='today')badge='<span class="day-badge badge-today">today</span>';
+  else if(status==='past'&&dd===dt&&dt>0)badge='<span class="day-badge badge-done">✓ done</span>';
+  else if(status==='upcoming')badge='<span class="day-badge badge-upcoming">upcoming</span>';
+  const isOpen=status==='today'||(status==='past'&&dd<dt);
+  block.innerHTML=`
     <div class="day-header" onclick="toggleDay(${day.day})">
       <span class="day-num">Day ${day.day}</span>
       <span class="day-title">${day.title}</span>
       <span class="day-date">${day.date}</span>
-      ${badgeHtml}
+      ${badge}
       <span class="day-chevron ${isOpen?'open':''}" id="ch-${day.day}">▼</span>
     </div>
     <div class="task-list ${isOpen?'open':''}" id="tl-${day.day}">
-      ${day.sections.map(section => `
-        <div class="task-section-label">${section.label}</div>
-        ${section.tasks.map(task => {
-          const done = isTaskDone(task.id, dKey);
+      ${day.sections.map(s=>`
+        <div class="task-section-label">${s.label}</div>
+        ${s.tasks.map(task=>{
+          const done=isTaskDone(task.id,dKey);
+          const vidHtml=task.video?`<a class="video-pill" href="${task.video}" target="_blank">▶ watch video</a>`:'';
           return `<div class="task-item ${done?'done':''}" id="ti-${task.id}" onclick="handleTask('${task.id}','${dKey}')">
             <div class="task-cb"></div>
             <div class="task-content">
               <div class="task-text">${task.text}</div>
               ${task.sub?`<div class="task-sub">${task.sub}</div>`:''}
+              ${vidHtml}
             </div>
           </div>`;
         }).join('')}
@@ -1808,106 +1277,65 @@ function renderDay(day) {
         <div class="checkpoint-items">${day.checkpoint.map(c=>`<span class="checkpoint-item">${c}</span>`).join('')}</div>
       </div>
     </div>`;
-
   return block;
 }
 
-function renderNonNeg() {
-  const grid = document.getElementById('nonnegGrid');
-  if (!grid) return;
-  grid.innerHTML = NONNEG.map(nn => {
-    const done = isNonNegDone(nn.id);
-    return `<div class="nonneg-item ${done?'done':''}" id="nn-${nn.id}" onclick="handleNonNeg('${nn.id}')">
-      <div class="nonneg-cb"></div>
-      <span class="nonneg-text">${nn.text}</span>
-    </div>`;
+function renderNonNeg(){
+  const grid=document.getElementById('nonnegGrid'); if(!grid)return;
+  grid.innerHTML=NONNEG.map(nn=>{
+    const done=isNonNegDone(nn.id);
+    return `<div class="nonneg-item ${done?'done':''}" id="nn-${nn.id}" onclick="handleNonNeg('${nn.id}')"><div class="nonneg-cb"></div><span class="nonneg-text">${nn.text}</span></div>`;
   }).join('');
 }
 
 // ── INTERACTIONS ──────────────────────────────────────────────────────────────
+function toggleDay(n){ const tl=document.getElementById('tl-'+n),ch=document.getElementById('ch-'+n); if(!tl)return; const o=tl.classList.toggle('open'); if(ch)ch.classList.toggle('open',o); }
 
-function toggleDay(dayNum) {
-  const tl = document.getElementById('tl-'+dayNum);
-  const ch = document.getElementById('ch-'+dayNum);
-  if (!tl) return;
-  const open = tl.classList.toggle('open');
-  if (ch) ch.classList.toggle('open', open);
+function handleTask(id,dKey){
+  const done=toggleTask(id,dKey);
+  const el=document.getElementById('ti-'+id); if(el)el.className='task-item'+(done?' done':'');
+  renderSidebar(); checkWeekComplete();
 }
-
-function handleTask(taskId, dKey) {
-  const done = toggleTask(taskId, dKey);
-  const el = document.getElementById('ti-'+taskId);
-  if (el) el.className = 'task-item' + (done?' done':'');
-  renderSidebar();
-  checkWeekComplete();
-}
-
-function handleNonNeg(id) {
-  const done = toggleNonNeg(id);
-  const el = document.getElementById('nn-'+id);
-  if (el) el.className = 'nonneg-item' + (done?' done':'');
+function handleNonNeg(id){
+  const done=toggleNonNeg(id);
+  const el=document.getElementById('nn-'+id); if(el)el.className='nonneg-item'+(done?' done':'');
   renderSidebar();
 }
+function showPhase(idx){ currentPhase=idx; renderMain(); renderSidebar(); window.scrollTo({top:0,behavior:'smooth'}); }
 
-function showPhase(idx) {
-  currentPhase = idx;
-  renderMain();
-  renderSidebar();
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-function checkWeekComplete() {
-  const phase = PHASES[currentPhase];
-  for (const week of phase.weeks) {
-    let weekDone = 0, weekTotal = 0;
-    const data = getStorage();
-    for (const day of week.days)
-      for (const section of day.sections) {
-        weekTotal += section.tasks.length;
-        const dKey = dayDateKey(day.day);
-        if (data.tasks && data.tasks[dKey])
-          weekDone += section.tasks.filter(t => data.tasks[dKey][t.id]).length;
-      }
-    if (weekDone > 0 && weekDone === weekTotal) {
-      const wKey = phase.id + '-' + week.title;
-      if (!modalShownForWeeks.has(wKey)) {
+function checkWeekComplete(){
+  const phase=PHASES[currentPhase];
+  for(const week of phase.weeks){
+    let wd=0,wt=0; const data=getStorage();
+    for(const day of week.days)for(const s of day.sections){
+      wt+=s.tasks.length; const dk=dayDateKey(day.day);
+      if(data.tasks&&data.tasks[dk])wd+=s.tasks.filter(t=>data.tasks[dk][t.id]).length;
+    }
+    if(wd>0&&wd===wt){
+      const wKey=phase.id+'-'+week.title;
+      if(!modalShownForWeeks.has(wKey)){
         modalShownForWeeks.add(wKey);
-        localStorage.setItem('st_modal_shown', JSON.stringify([...modalShownForWeeks]));
+        localStorage.setItem('at_modal_shown',JSON.stringify([...modalShownForWeeks]));
         showModal(week.title);
       }
     }
   }
 }
 
-function showModal(weekTitle) {
-  const streak = computeStreak();
-  setEl('modalIcon', streak >= 7 ? '🔥' : '⚡');
-  setEl('modalTitle', weekTitle + ' Complete!');
-  setEl('modalSub', `Every task checked. Every checkpoint hit. ${streak} day streak and counting. You're not just learning — you're compounding.`);
+function showModal(weekTitle){
+  const streak=computeStreak();
+  setEl('modalIcon',streak>=7?'🔥':'⚡');
+  setEl('modalTitle',weekTitle+' Complete!');
+  setEl('modalSub',`Every task checked. Every checkpoint hit. ${streak} day streak. You're compounding.`);
   document.getElementById('modalOverlay').classList.add('show');
 }
-
-function closeModal() { document.getElementById('modalOverlay').classList.remove('show'); }
+function closeModal(){ document.getElementById('modalOverlay').classList.remove('show'); }
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
-
-function getInitialPhase() {
-  const n = dayNum(TODAY);
-  if (n <= 10) return 0;
-  if (n <= 23) return 1;
-  if (n <= 37) return 2;
-  if (n <= 55) return 3;
-  return 4;
-}
-
-currentPhase = Math.max(0, getInitialPhase());
-renderSidebar();
-renderMain();
-
-setTimeout(() => {
-  const todayEl = document.querySelector('.today-block');
-  if (todayEl) todayEl.scrollIntoView({behavior:'smooth', block:'center'});
-}, 300);
+function getInitialPhase(){ const n=dayNum(TODAY); if(n<=3)return 0; if(n<=17)return 1; if(n<=32)return 2; if(n<=43)return 3; return 4; }
+currentPhase=Math.max(0,getInitialPhase());
+renderSidebar(); renderMain();
+setTimeout(()=>{ const t=document.querySelector('.today-block'); if(t)t.scrollIntoView({behavior:'smooth',block:'center'}); },300);
 </script>
 </body>
 </html>
